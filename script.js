@@ -1,6 +1,29 @@
 let selectedCards = [];
 
+class Card {
+    constructor(color, shape, number, shading) {
+      this.color = color;
+      this.shape = shape;
+      this.number = number;
+      this.shading = shading;
+    }
+  }
 
+function initializeDeck() {
+    let deck = new Set();
+
+    for (const color of ['red', 'green', 'purple']) {
+        for (const shape of ['diamond', 'squiggle', 'oval']) {
+            for (const number of [1, 2, 3]) {
+                for (const shading of ['solid', 'striped', 'open']) {
+                    const card = new Card(color, shape, number, shading);
+                    deck.add(card);
+                }
+            }
+        }
+    }
+    return deck;
+}
  
 function handleClick(cardNumber) {
     const clickedCard = document.querySelector(`.card:nth-child(${cardNumber})`);
