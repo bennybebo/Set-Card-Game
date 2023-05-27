@@ -54,7 +54,7 @@ function getPossibleCombinations(dealtCards) {
         }
     }
 
-    for (let i = startIndex; i < dealCards.length; i++) {
+    for (let i = startIndex; i < dealtCards.length; i++) {
         currentCombination.push(dealtCards[i]);
         backtrack(i + 1, currentCombination);
         currentCombination.pop();
