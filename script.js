@@ -24,6 +24,45 @@ function initializeDeck() {
     }
     return deck;
 }
+
+function dealCards(deck) {
+    const dealtCards = []
+
+    while (true) {
+        // Randomly deal 12 cards from the deck
+        for (let i = 0; i < 12; i++) {
+            const randomCard = Array.from(deck)[Math.floor(Math.random() * deck.size)];
+            dealtCards.push(randomCard);
+        }
+        //Check if there is a set among the dealt cards
+        const possibleCombinations = getPossibleCombinations(dealtCards);
+        const containsValidSet = possibleCombinations.some(([card1, card2, card3]) => isValidSet(card1, card2, card3));
+
+        if (containsValidSet) {
+            return dealtCards;
+        }
+    }
+}
+
+function getPossibleCombinations(dealtCards) {
+    const possibleCombinations = [];
+
+    function backtrack(startIndex, currentCombination) {
+        if (currentCombination.length === 3) {
+            possibleCombinations.push(currentCombination.slice());
+            return;
+        }
+    }
+
+    for (let i = startIndex; i < dealCards.length; i++) {
+        currentCombination.push(dealtCards[i]);
+        backtrack(i + 1, currentCombination);
+        currentCombination.pop();
+    }
+    return possibleCombinations;
+}
+
+//TODO: isValidSet function
  
 function handleClick(cardNumber) {
     const clickedCard = document.querySelector(`.card:nth-child(${cardNumber})`);
