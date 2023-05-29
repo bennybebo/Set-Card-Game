@@ -7,7 +7,7 @@ class Card {
       this.number = number;
       this.shading = shading;
     }
-  }
+}
 
 function initializeDeck() {
     let deck = new Set();
@@ -63,6 +63,41 @@ function getPossibleCombinations(dealtCards) {
 }
 
 //TODO: isValidSet function
+function compareElements(element1, element2, element3) {
+    let result = 0;
+    // Compare each element from three cards, e.g. only color here
+    if ((element1 === element2) && (element2 === element3)) {
+        result = 1;     // if all the elements are equal, all three cards have the same color
+    } else if ((element1 !== element2) && (element1 !== element3) && (element2 !== element3)) {
+        result = 0;     // if none of the element is equal, all three cards have different colors
+    } else {
+        result = -1;    // if only two of the elements are equal, they are not qualified
+    }
+    return result;
+}
+
+function isValidSet(selectedCards) {    // Suppose selectedCards will have three elements
+    let isValidSet = false;
+    let count = 0;
+    // Compare each corresponding element from three cards
+    let colorResult = compareElements(selectedCards[0].color, selectedCards[1].color, selectedCards[2].color);
+    let shapeResult = compareElements(selectedCards[0].shape, selectedCards[1].shape, selectedCards[2].shape);
+    let numberResult = compareElements(selectedCards[0].number, selectedCards[1].number, selectedCards[2].number);
+    let shadingResult = compareElements(selectedCards[0].shading, selectedCards[1].shading, selectedCards[2].shading);
+    // Check validity
+    if ((colorResult == -1) || (shapeResult == -1) || (numberResult == -1) || (shadingResult == -1)) {
+        isValidSet = false;
+    } else {
+        count = colorResult + shapeResult + numberResult + shadingResult;
+        // 0 means 0 same element and 4 different elements
+        // 1 means 1 same element and 3 different elements
+        // 3 means 3 same elements and 1 different elements
+        if ((count == 0) || (count == 1) || (count == 3)) {
+            isValidSet = true;
+        }
+    }
+    return isValidSet;
+}
  
 function handleClick(cardNumber) {
     const clickedCard = document.querySelector(`.card:nth-child(${cardNumber})`);
