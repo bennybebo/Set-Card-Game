@@ -36,12 +36,22 @@ function dealCards(deck) {
         }
         //Check if there is a set among the dealt cards
         const possibleCombinations = getPossibleCombinations(dealtCards);
-        const containsValidSet = possibleCombinations.some(([card1, card2, card3]) => isValidSet(card1, card2, card3));
+        const containsValidSet = possibleCombinations.some(([card1, card2, card3]) => isSet(card1, card2, card3));
 
         if (containsValidSet) {
             return dealtCards;
         }
     }
+}
+
+function isSet(card1, card2, card3) {
+    for (const attribute of Object.keys(card1)) { //For each attribute
+      const values = new Set([card1[attribute], card2[attribute], card3[attribute]]);
+      if (values.size === 2) { //If three cards share two attributes it is not a set
+        return false;
+      }
+    }
+    return true;
 }
 
 function getPossibleCombinations(dealtCards) {
@@ -64,7 +74,6 @@ function getPossibleCombinations(dealtCards) {
     return possibleCombinations;
 }
 
-//TODO: isValidSet function
 function compareElements(element1, element2, element3) {
     let result = 0;
     // Compare each element from three cards, e.g. only color here
