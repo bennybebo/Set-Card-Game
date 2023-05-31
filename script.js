@@ -52,17 +52,16 @@ function getPossibleCombinations(dealtCards) {
             possibleCombinations.push(currentCombination.slice());
             return;
         }
-    }
 
-    for (let i = startIndex; i < dealtCards.length; i++) {
-        currentCombination.push(dealtCards[i]);
-        backtrack(i + 1, currentCombination);
-        currentCombination.pop();
+        for (let i = startIndex; i < dealtCards.length; i++) {
+            currentCombination.push(dealtCards[i]);
+            backtrack(i + 1, currentCombination);
+            currentCombination.pop();
+        }
     }
+    backtrack(0, []);
     return possibleCombinations;
 }
-
-//TODO: isValidSet function
  
 function handleClick(cardNumber) {
     const clickedCard = document.querySelector(`.card:nth-child(${cardNumber})`);
