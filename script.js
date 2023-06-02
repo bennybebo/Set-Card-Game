@@ -55,6 +55,18 @@ function dealCards(deck) {
     }
 }
 
+function addThreeCards(visibleCards, deck) {
+    const deckArray = Array.from(deck);
+
+    for (let i = 0; i < 3; i++) {
+        const randomIndex = Math.floor(Math.random() * deckArray.length);
+        const randomCard = deckArray[randomIndex];
+        visibleCards.push(randomCard);
+        deckArray.splice(randomIndex, 1);
+        deck.delete(randomCard);
+    }
+}
+
 function isSet(card1, card2, card3) {
     for (const attribute of Object.keys(card1)) { //For each attribute
       const values = new Set([card1[attribute], card2[attribute], card3[attribute]]);
@@ -192,4 +204,4 @@ function replaceCards(deck, selectedCards) {
       const randomCard = Array.from(deck)[Math.floor(Math.random() * deck.size)];
       selectedCards[i] = randomCard;
     }
-  }
+}
