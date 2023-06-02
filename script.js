@@ -166,3 +166,30 @@ function printOutcome() {
         messageContainer.classList.remove('set', 'not-set');
     }, 2000);
 }
+
+// 2 players' scores object 
+let scores = {
+    player1: 0, 
+    player2: 0
+};
+
+function increaseScore(player){
+    scores[player]++;
+}
+
+function decreaseScore(player){
+    scores[player]--;
+}
+
+function printScores() {
+    for (let player in scores) {
+        console.log(player + "'s score: " + scores[player]);
+    }
+}
+
+function replaceCards(deck, selectedCards) {
+    for (let i = 0; i < selectedCards.length; i++) {
+      const randomCard = Array.from(deck)[Math.floor(Math.random() * deck.size)];
+      selectedCards[i] = randomCard;
+    }
+  }
