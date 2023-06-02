@@ -26,20 +26,31 @@ function initializeDeck() {
 }
 
 function dealCards(deck) {
-    const dealtCards = []
+    const deckArray = Array.from(deck);
 
     while (true) {
+        const dealtCards = [];
         // Randomly deal 12 cards from the deck
         for (let i = 0; i < 12; i++) {
-            const randomCard = Array.from(deck)[Math.floor(Math.random() * deck.size)];
+            const randomIndex = Math.floor(Math.random() * deckArray.length);
+            const randomCard = deckArray[randomIndex];
             dealtCards.push(randomCard);
+            deckArray.splice(randomIndex, 1);
         }
         //Check if there is a set among the dealt cards
         const possibleCombinations = getPossibleCombinations(dealtCards);
         const containsValidSet = possibleCombinations.some(([card1, card2, card3]) => isSet(card1, card2, card3));
 
         if (containsValidSet) {
+            //Remove the dealt cards from the deck
+            for (const card of dealtCards) {
+                deck.delete(card);
+            }
             return dealtCards;
+        }
+        else {
+            //dealtCards did not contain a set, add the dealt cards back into the deck
+            deckArray.push(...dealtCards);
         }
     }
 }
