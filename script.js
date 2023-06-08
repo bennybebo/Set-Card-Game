@@ -12,7 +12,7 @@ class Card {
 function initializeDeck() {
     let deck = new Set();
 
-    for (const color of ['red', 'green', 'purple']) {
+    for (const color of ['red', 'green', 'blue']) {
         for (const shape of ['diamond', 'squiggle', 'oval']) {
             for (const number of [1, 2, 3]) {
                 for (const shading of ['solid', 'striped', 'open']) {
@@ -26,44 +26,21 @@ function initializeDeck() {
 }
 
 function dealCards(deck) {
-    const deckArray = Array.from(deck);
+    const dealtCards = []
 
     while (true) {
-        const dealtCards = [];
         // Randomly deal 12 cards from the deck
         for (let i = 0; i < 12; i++) {
-            const randomIndex = Math.floor(Math.random() * deckArray.length);
-            const randomCard = deckArray[randomIndex];
+            const randomCard = Array.from(deck)[Math.floor(Math.random() * deck.size)];
             dealtCards.push(randomCard);
-            deckArray.splice(randomIndex, 1);
         }
         //Check if there is a set among the dealt cards
         const possibleCombinations = getPossibleCombinations(dealtCards);
         const containsValidSet = possibleCombinations.some(([card1, card2, card3]) => isSet(card1, card2, card3));
 
         if (containsValidSet) {
-            //Remove the dealt cards from the deck
-            for (const card of dealtCards) {
-                deck.delete(card);
-            }
             return dealtCards;
         }
-        else {
-            //dealtCards did not contain a set, add the dealt cards back into the deck
-            deckArray.push(...dealtCards);
-        }
-    }
-}
-
-function addThreeCards(visibleCards, deck) {
-    const deckArray = Array.from(deck);
-
-    for (let i = 0; i < 3; i++) {
-        const randomIndex = Math.floor(Math.random() * deckArray.length);
-        const randomCard = deckArray[randomIndex];
-        visibleCards.push(randomCard);
-        deckArray.splice(randomIndex, 1);
-        deck.delete(randomCard);
     }
 }
 
@@ -134,32 +111,46 @@ function isValidSet(selectedCards) {    // Suppose selectedCards will have three
 }
  
 function handleClick(cardNumber) {
-    const clickedCard = document.querySelector(`.card:nth-child(${cardNumber})`);
-
-    if (clickedCard.classList.contains('selected')) {
-        clickedCard.classList.remove('selected');
-        selectedCard = selectedCards.filter(card => card !== clickedCard);
+    const clickedCard = dealtCards[cardNumber - 1];
+  
+    if (isSelected(clickedCard)) {
+      deselectCard(clickedCard);
     } else {
-        clickedCard.classList.add('selected');
-        selectedCards.push(clickedCard);
+      selectCard(clickedCard);
     }
-
+  
     if (selectedCards.length === 3) {
-        setTimeout(clearSelection, 100);
+      setTimeout(clearSelection, 100);
     }
-}
+  }
+  
+  function isSelected(card) {
+    return selectedCards.includes(card);
+  }
+  
+  function selectCard(card) {
+    selectedCards.push(card);
+    const cardIndex = dealtCards.indexOf(card);
+    const cardElement = document.querySelector(`.card:nth-child(${cardIndex + 1})`);
+    cardElement.classList.add('selected');
+  }
+  
+  function deselectCard(card) {
+    selectedCards = selectedCards.filter(c => c !== card);
+    const cardIndex = dealtCards.indexOf(card);
+    const cardElement = document.querySelector(`.card:nth-child(${cardIndex + 1})`);
+    cardElement.classList.remove('selected');
+  }
 
-function clearSelection() {
-    selectedCards.forEach(card => card.classList.remove('selected'));
-    foo();
-    selectedCards = [];
-}
-
-function clearSelection() {
-    selectedCards.forEach(card => card.classList.remove('selected'));
+  function clearSelection() {
+    selectedCards.forEach(card => {
+      const cardIndex = dealtCards.indexOf(card);
+      const cardElement = document.querySelector(`.card:nth-child(${cardIndex + 1})`);
+      cardElement.classList.remove('selected');
+    });
     printOutcome();
     selectedCards = [];
-}
+  }
 
 function printOutcome() {
     const randomValue = Math.random();
@@ -179,31 +170,36 @@ function printOutcome() {
     }, 2000);
 }
 
-// 2 players' scores object 
-let scores = {
-    player1: 0, 
-    player2: 0
-};
 
-function increaseScore(player){
-    scores[player]++;
-}
 
-function decreaseScore(player){
-    scores[player]--;
-}
-
-function printScores() {
-    for (let player in scores) {
-        console.log(player + "'s score: " + scores[player]);
+// add images to the html div elements
+function cardImages() {
+    for (var i = 1; i < dealtCards.length + 1; i++){
+        img_src = "imgs/" + dealtCards[i-1].color + "_" + dealtCards[i-1].shape + "_" + dealtCards[i-1].number + "_" + dealtCards[i-1].shading + ".jpg"
+        const firstBox = document.querySelector('.card:nth-child(' + i + ')');
+        const image = document.createElement('img');
+        image.src = img_src
+        image.alt = 'Image';
+        const boxWidth = firstBox.offsetWidth;
+        const boxHeight = firstBox.offsetHeight;
+        
+        // Set the width and height of the image to match the box dimensions
+        image.style.width = boxWidth + 'px';
+        image.style.height = boxHeight + 'px';       
+        firstBox.appendChild(image)
     }
 }
 
-function replaceCards(deck, selectedCards) {
-    for (let i = 0; i < selectedCards.length; i++) {
-      const randomCard = Array.from(deck)[Math.floor(Math.random() * deck.size)];
-      selectedCards[i] = randomCard;
-      deck.delete(randomCard);
-  }
-    }
+
+
+function lenSelectedCards(selectedCards){
+    return selectedCards.length;
 }
+
+let gameIsNotOver = true;
+
+
+deck = initializeDeck();
+dealtCards = dealCards(deck);
+cardImages();
+
