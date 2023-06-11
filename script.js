@@ -144,6 +144,31 @@ function handleClick(cardNumber) {
       setTimeout(clearSelection, 100);
     }
   }
+
+function checkSelectedCards() {
+    if (isValidSet(selectedCards)) {
+        console.log("Set found!");
+        //Increase score of player
+        //TODO: change this so the current player gets their score increased
+        increaseScore("player1");
+        //Replace selected cards with new ones
+        replaceCards(deck, selectedCards);
+        //Clear the selection
+        clearSelection();
+        //Update card images
+        cardImages();
+    }
+    else {
+        console.log("Not a set.");
+        //Decrease score of player
+        //TODO: change this so the current player gets their score decreased
+        decreaseScore("player1");
+        //Clear the selection
+        clearSelection();
+    }
+
+    printScores();
+}
   
   function isSelected(card) {
     return selectedCards.includes(card);
