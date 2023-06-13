@@ -1,4 +1,5 @@
 let selectedCards = [];
+let currentPlayer = "player1";
 
 class Card {
     constructor(color, shape, number, shading) {
@@ -130,6 +131,12 @@ function isValidSet(selectedCards) {    // Suppose selectedCards will have three
     }
     return isValidSet;
 }
+
+function containsSet(visibleCards) {
+    //Check if there is a set among the dealt cards
+    const possibleCombinations = getPossibleCombinations(visibleCards);
+    return possibleCombinations.some(([card1, card2, card3]) => isSet(card1, card2, card3));
+}
  
 function handleClick(cardNumber) {
     const clickedCard = dealtCards[cardNumber - 1];
@@ -144,6 +151,29 @@ function handleClick(cardNumber) {
       setTimeout(clearSelection, 100);
     }
   }
+
+function checkSelectedCards() {
+    if (isValidSet(selectedCards)) {
+        console.log("Set found!");
+        //Increase score of player
+        increaseScore(currentPlayer);
+        //Replace selected cards with new ones
+        replaceCards(deck, selectedCards);
+        //Clear the selection
+        clearSelection();
+        //Update card images
+        cardImages();
+    }
+    else {
+        console.log("Not a set.");
+        //Decrease score of player
+        decreaseScore(currentPlayer);
+        //Clear the selection
+        clearSelection();
+    }
+
+    printScores();
+}
   
   function isSelected(card) {
     return selectedCards.includes(card);
@@ -250,6 +280,19 @@ function hint() {
             break;
         }
     }
+}
+
+function startGame() {
+    // Initialize the deck and deal initial cards
+    deck = initializeDeck();
+    let visibleCards = dealCards(deck);
+    //Display dealt cards
+    cardImages();
+
+    while (deck.size > 0 || containsSet(visibleCards)) {
+        //Wait for player input or game over
+    }
+    printScores();
 }
 
 let gameIsNotOver = true;
