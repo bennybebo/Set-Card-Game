@@ -238,6 +238,20 @@ function lenSelectedCards(selectedCards){
     return selectedCards.length;
 }
 
+function hint() {
+    let combos = getPossibleCombinations(dealtCards);
+    for (const combo of combos) {
+        if (isValidSet(combo)) {
+            //highlight 2/3 cards
+            for (let i = 0; i < combo.length - 1; i++) {
+                dealtCardsIndex = dealtCards.indexOf(combo[i]);
+                document.getElementById("card" + (dealtCardsIndex + 1)).style.border = "thick solid yellow";
+            }
+            break;
+        }
+    }
+}
+
 let gameIsNotOver = true;
 
 
