@@ -93,10 +93,14 @@
                 card.classList.toggle('.light-mode .card.selected');
             });
         }
+        
+        document.getElementById('start-timer').addEventListener('click', start_timer);
+        let sec=0;
+        let min=0;
         let duration;
         function start_timer(){
-            let sec=0;
-            let min=0;
+            sec=0;
+            min=0;
             clearInterval(duration)
             duration=setInterval(update_timer,1000)
         }
