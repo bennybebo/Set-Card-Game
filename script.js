@@ -148,18 +148,22 @@ function handleClick(cardNumber) {
     }
   
     if (selectedCards.length === 3) {
-      setTimeout(clearSelection, 100);
+      checkSelectedCards();
+    //   setTimeout(clearSelection, 100);
     }
   }
 
 function checkSelectedCards() {
+    isaSet = false;
     if (isValidSet(selectedCards)) {
+        isaSet=true;
         console.log("Set found!");
         //Increase score of player
         increaseScore(currentPlayer);
         //Replace selected cards with new ones
         replaceCards(deck, selectedCards);
         //Clear the selection
+        printOutcome(isaSet);
         clearSelection();
         //Update card images
         cardImages();
@@ -169,9 +173,9 @@ function checkSelectedCards() {
         //Decrease score of player
         decreaseScore(currentPlayer);
         //Clear the selection
+        printOutcome(isaSet);
         clearSelection();
     }
-
     printScores();
 }
   
@@ -199,27 +203,22 @@ function checkSelectedCards() {
       const cardElement = document.querySelector(`.card:nth-child(${cardIndex + 1})`);
       cardElement.classList.remove('selected');
     });
-    printOutcome();
     selectedCards = [];
   }
 
-function printOutcome() {
-    const randomValue = Math.random();
-    const messageContainer = document.getElementById('message-container');
-
-    if (randomValue < 0.5) {
-        messageContainer.textContent = 'Set';
-        messageContainer.classList.add('set');
-    } else {
-        messageContainer.textContent = 'Not a Set';
-        messageContainer.classList.add('not-set');
-    }
-
-    setTimeout(() => {
-        messageContainer.textContent = '';
-        messageContainer.classList.remove('set', 'not-set');
-    }, 2000);
-}
+function printOutcome(isaSet) {
+        const messageContainer = document.getElementById('message-container');
+        if(isaSet == true){
+            messageContainer.textContent = 'Set';
+            messageContainer.classList.add('set');
+        }
+        else{
+            messageContainer.textContent = 'Not a Set';
+            messageContainer.classList.add('not-set');
+        }
+    
+        }
+    
 
 // 2 players' scores object 
 let scores = {
@@ -240,7 +239,7 @@ function printScores() {
 function replaceCards(deck, selectedCards) {
     for (let i = 0; i < selectedCards.length; i++) {
       const randomCard = Array.from(deck)[Math.floor(Math.random() * deck.size)];
-      selectedCards[i] = randomCard;
+    //   selectedCards[i] = randomCard;
       deck.delete(randomCard);
     }
   }
@@ -290,23 +289,8 @@ function hint() {
     }
 }
 
-function startGame() {
-    // Initialize the deck and deal initial cards
-    deck = initializeDeck();
-    let visibleCards = dealCards(deck);
-    //Display dealt cards
-    cardImages();
-
-    while (deck.size > 0 || containsSet(visibleCards)) {
-        //Wait for player input or game over
-    }
-    printScores();
-}
-
-let gameIsNotOver = true;
 
 
 deck = initializeDeck();
 dealtCards = dealCards(deck);
 cardImages();
-
