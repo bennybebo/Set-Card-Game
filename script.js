@@ -1,5 +1,6 @@
 let selectedCards = [];
-let currentPlayer = "player1";
+let currentPlayer = null;
+let timeoutId;
 
 class Card {
     constructor(color, shape, number, shading) {
@@ -175,7 +176,12 @@ function handleClick(cardNumber) {
     }
   }
 
+/*
+ * When selectedCards has 3 elements, check whether or not it is a set and handle each case.
+ * Expects nothing as input and returns nothing.
+ */
 function checkSelectedCards() {
+    clearTimeout(timeoutId);
     isaSet = false;
     if (isValidSet(selectedCards)) {
         isaSet=true;
@@ -198,6 +204,7 @@ function checkSelectedCards() {
         printOutcome(isaSet);
         clearSelection();
     }
+    currentPlayer = null;
     printScores();
 }
   
@@ -258,6 +265,42 @@ function printScores() {
         console.log(player + "'s score: " + scores[player]);
     }
 }
+
+/*
+ * Keyboard listener that changes who the current player is based off key press.
+ */
+document.addEventListener('keydown', function (event) {
+    if (currentPlayer === null) {
+      //First player to press a key becomes the current player
+      if (event.key === 'a') {
+        currentPlayer = 'player1';
+        clearTimeout(timeoutId); //Clear the timeout for the previous player (if any)
+        timeoutId = setTimeout(playerTimeout, 5000); //Set a 5 second timer
+      } 
+      else if (event.key === 'l') {
+        currentPlayer = 'player2';
+        clearTimeout(timeoutId); //Clear the timeout for the previous player (if any)
+        timeoutId = setTimeout(playerTimeout, 5000); //Set a 5 second timer
+      }
+    }
+});
+
+/*
+ * Function to handle player timeout.
+ * Expects nothing as input and returns nothing.
+ */ 
+function playerTimeout() {
+    clearSelection()
+    // Player timed out, handle the timeout logic here
+    if (currentPlayer === 'player1') {
+      decreaseScore('player1');
+    } else  {
+      decreaseScore('player2');
+    }
+    currentPlayer = null; //Reset the current player
+    timeoutId = null; //Reset the timeout ID
+  }
+
 function replaceCards(deck, selectedCards) {
   const replacedCards = [];
   for (let i = 0; i < selectedCards.length; i++) {
