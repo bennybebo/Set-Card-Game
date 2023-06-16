@@ -169,13 +169,11 @@ li{
 
 
 .card.selected {
-    border: 6px solid #43d3b9;
-    outline: none !important;
+    outline: 6px solid #43d3b9;
 }
 
 .light-mode .card.selected{
-    border: 6px solid #272c39;
-    transition: background-color 0.5s, color 0.5s, border-color 0.5s;
+    outline: 6px solid #272c39;
 }
 
 #message-container {
@@ -189,6 +187,10 @@ li{
     text-align: center;
     color: #43d3b9;
     padding: 10px 20px;
+}
+
+.light-mode #message-container{
+    color: #272c39;
 }
 #top {
     position: fixed;
