@@ -172,7 +172,6 @@ function handleClick(cardNumber) {
   
     if (selectedCards.length === 3) {
       checkSelectedCards();
-    //   setTimeout(clearSelection, 100);
     }
   }
 
@@ -181,28 +180,25 @@ function handleClick(cardNumber) {
  * Expects nothing as input and returns nothing.
  */
 function checkSelectedCards() {
+    selectedCardsCopy = selectedCards;
+    clearSelection();
     clearTimeout(timeoutId);
-    isaSet = false;
-    if (isValidSet(selectedCards)) {
+    let isaSet = false;
+    if (isValidSet(selectedCardsCopy)) {
         isaSet=true;
-        console.log("Set found!");
         //Increase score of player
         increaseScore(currentPlayer);
         //Replace selected cards with new ones
-        replaceCards(deck, selectedCards);
-        //Clear the selection
+        replaceCards(selectedCardsCopy);
         printOutcome(isaSet);
-        clearSelection();
         //Update card images
         cardImages();
     }
     else {
-        console.log("Not a set.");
         //Decrease score of player
         decreaseScore(currentPlayer);
         //Clear the selection
         printOutcome(isaSet);
-        clearSelection();
     }
     currentPlayer = null;
     printScores();
@@ -213,9 +209,15 @@ function checkSelectedCards() {
   }
   
   function selectCard(card) {
-    selectedCards.push(card);
     const cardIndex = dealtCards.indexOf(card);
     const cardElement = document.querySelector(`.card:nth-child(${cardIndex + 1})`);
+    const isHinted = cardElement.style.outline !== '';
+    
+    if (isHinted) {
+      cardElement.style.outline = ''; // Remove the hint outline
+    }
+    
+    selectedCards.push(card);
     cardElement.classList.add('selected');
   }
   
@@ -236,18 +238,21 @@ function checkSelectedCards() {
   }
 
 function printOutcome(isaSet) {
-        const messageContainer = document.getElementById('message-container');
-        if(isaSet == true){
-            messageContainer.textContent = 'Set';
-            messageContainer.classList.add('set');
-        }
-        else{
-            messageContainer.textContent = 'Not a Set';
-            messageContainer.classList.add('not-set');
-        }
-    
-        }
-    
+    const messageContainer = document.getElementById('message-container');
+    if(isaSet == true){
+         messageContainer.textContent = 'Set';
+        messageContainer.classList.add('set');
+    }
+    else{
+        messageContainer.textContent = 'Not a Set';
+        messageContainer.classList.add('not-set');
+    }
+    setTimeout(() => {
+        messageContainer.textContent = '';
+        messageContainer.classList.remove('set', 'not-set');
+    }, 3000);
+}
+
 
 // 2 players' scores object 
 let scores = {
@@ -301,33 +306,50 @@ function playerTimeout() {
     timeoutId = null; //Reset the timeout ID
   }
 
-function replaceCards(deck, selectedCards) {
-  const replacedCards = [];
-  for (let i = 0; i < selectedCards.length; i++) {
-    const randomCard = Array.from(deck)[Math.floor(Math.random() * deck.size)];
-    replacedCards.push(randomCard);
-    deck.delete(randomCard);
+  function replaceCards(selectedCardsCopy) { 
+    // Remove selected cards from dealtCards
+    for (const card of selectedCardsCopy) {
+        const cardIndex = dealtCards.findIndex((c) => c === card);
+        if (cardIndex !== -1) {
+          dealtCards.splice(cardIndex, 1);
+        }
+    }
+  
+    // Add three new cards from the deck
+    const deckArray = Array.from(deck);
+    for (let i = 0; i < 3; i++) {
+        const randomIndex = Math.floor(Math.random() * deckArray.length);
+        const randomCard = deckArray.splice(randomIndex, 1)[0];
+        dealtCards.push(randomCard);
+        deck.delete(randomCard);
+    }
   }
-  return replacedCards;
-}
 
 // add images to the html div elements
 function cardImages() {
-    for (var i = 1; i < dealtCards.length + 1; i++){
-        img_src = "imgs/" + dealtCards[i-1].color + "_" + dealtCards[i-1].shape + "_" + dealtCards[i-1].number + "_" + dealtCards[i-1].shading + ".jpg"
-        const firstBox = document.querySelector('.card:nth-child(' + i + ')');
-        const image = document.createElement('img');
-        image.src = img_src
-        image.alt = 'Image';
-        const boxWidth = firstBox.offsetWidth;
-        const boxHeight = firstBox.offsetHeight;
-        
-        // Set the width and height of the image to match the box dimensions
-        image.style.width = boxWidth + 'px';
-        image.style.height = boxHeight + 'px';       
-        firstBox.appendChild(image)
+    for (var i = 1; i < dealtCards.length + 1; i++) {
+      const cardIndex = i - 1;
+      const card = dealtCards[cardIndex];
+      const imgSrc = "imgs/" + card.color + "_" + card.shape + "_" + card.number + "_" + card.shading + ".jpg";
+  
+      const cardElement = document.querySelector(`.card:nth-child(${i})`);
+      // Clear previous image elements
+      cardElement.innerHTML = '';
+  
+      const image = document.createElement('img');
+      image.src = imgSrc;
+      image.alt = 'Image';
+  
+      const boxWidth = cardElement.offsetWidth;
+      const boxHeight = cardElement.offsetHeight;
+  
+      // Set the width and height of the image to match the box dimensions
+      image.style.width = boxWidth + 'px';
+      image.style.height = boxHeight + 'px';
+  
+      cardElement.appendChild(image);
     }
-}
+  }
 
 
 function lenSelectedCards(selectedCards){
@@ -355,7 +377,6 @@ function hint() {
         }
     }
 }
-
 
 
 deck = initializeDeck();
