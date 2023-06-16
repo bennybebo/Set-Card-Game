@@ -10,6 +10,9 @@ class Card {
     }
 }
 
+/*
+ * Function creates a set of 81 unique cards. Expects nothing as input and returns the set of cards
+ */
 function initializeDeck() {
     let deck = new Set();
 
@@ -26,6 +29,10 @@ function initializeDeck() {
     return deck;
 }
 
+/*
+ * Function removes 12 cards from the deck that contain at least one set.
+ * Expects a set of cards as input and returns an array of 12 cards.
+ */
 function dealCards(deck) {
     const deckArray = Array.from(deck);
     while (true) {
@@ -54,6 +61,10 @@ function dealCards(deck) {
     }
 }
 
+/*
+ * Removes three cards from the deck and adds them to the visible cards array.
+ * Expects an array of cards and a set of cards as input and returns nothing.
+ */
 function addThreeCards(visibleCards, deck) {
     const deckArray = Array.from(deck);
 
@@ -66,6 +77,10 @@ function addThreeCards(visibleCards, deck) {
     }
 }
 
+/*
+ * Determines if three cards are a set.
+ * Expects three cards as input and returns a boolean.
+ */
 function isSet(card1, card2, card3) {
     for (const attribute of Object.keys(card1)) { //For each attribute
       const values = new Set([card1[attribute], card2[attribute], card3[attribute]]);
@@ -76,6 +91,10 @@ function isSet(card1, card2, card3) {
     return true;
 }
 
+/*
+ * Gets all possible 3 card combinations from within an array of cards.
+ * Expects an array of cards as input and returns an array of possible combinations.
+ */
 function getPossibleCombinations(dealtCards) {
     const possibleCombinations = [];
 
@@ -132,8 +151,11 @@ function isValidSet(selectedCards) {    // Suppose selectedCards will have three
     return isValidSet;
 }
 
+/*
+ * Checks if there is a set within an array of cards.
+ * Expects an array of cards as input and returns a boolean.
+ */
 function containsSet(visibleCards) {
-    //Check if there is a set among the dealt cards
     const possibleCombinations = getPossibleCombinations(visibleCards);
     return possibleCombinations.some(([card1, card2, card3]) => isSet(card1, card2, card3));
 }
