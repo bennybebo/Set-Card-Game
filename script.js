@@ -151,7 +151,7 @@ function handleClick(cardNumber) {
       checkSelectedCards();
     //   setTimeout(clearSelection, 100);
     }
-  }
+}
 
 function checkSelectedCards() {
     isaSet = false;
@@ -178,7 +178,7 @@ function checkSelectedCards() {
     }
     printScores();
 }
-  
+
   function isSelected(card) {
     return selectedCards.includes(card);
   }
@@ -217,7 +217,7 @@ function printOutcome(isaSet) {
             messageContainer.classList.add('not-set');
         }
     
-        }
+}
     
 
 // 2 players' scores object 
@@ -259,8 +259,11 @@ function cardImages() {
         
         // Set the width and height of the image to match the box dimensions
         image.style.width = boxWidth + 'px';
-        image.style.height = boxHeight + 'px';       
-        firstBox.appendChild(image)
+        image.style.height = boxHeight + 'px'; 
+        if (firstBox.hasChildNodes()) { //so we're not adding multiple images to one card
+            firstBox.removeChild(firstBox.firstChild);
+        }    
+        firstBox.appendChild(image);
     }
 }
 
@@ -269,29 +272,49 @@ function lenSelectedCards(selectedCards){
     return selectedCards.length;
 }
 
-//provides the player with 2/3 cards of a set
+/*finds the first set on the screen and highlights the first two cards.
+called when hint button is clicked.
+*/
 function hint() {
     let combos = getPossibleCombinations(dealtCards);
     for (const combo of combos) {
         if (isValidSet(combo)) {
-        //highlight 2/3 cards
+            //highlight 2/3 cards
             for (let i = 0; i < combo.length - 1; i++) {
                 var card = document.getElementById("card" + (dealtCards.indexOf(combo[i]) + 1));
                 card.style.outline = '5px solid rgba(152, 209, 245, .7)';
-        }
-        //remove outlines on cards
-        setTimeout(() => {
-            for (let i = 0; i < combo.length - 1; i++) {
-                var card = document.getElementById("card" + (dealtCards.indexOf(combo[i]) + 1));
-                card.style.outline = "none";
             }
-        }, 5000);
-        break;
+            //remove outlines on cards
+            setTimeout(() => {
+                for (let i = 0; i < combo.length - 1; i++) {
+                    var card = document.getElementById("card" + (dealtCards.indexOf(combo[i]) + 1));
+                    card.style.outline = "none";
+                }
+            }, 5000);
+            break;
         }
     }
 }
 
-
+/*Opens three new cards to add to the screen.
+Called when Open New Cards button is clicked.
+*/
+function openNewCards() {
+    container = document.getElementsByClassName("container");
+    for (let i = 0; i < 3; i++) {
+        deckArr = Array.from(deck);
+        let card = deckArr[Math.floor(Math.random() * deckArr.length)];
+        deck.delete(card);
+        dealtCards.push(card);
+        cardDiv = document.createElement("div");
+        cardDiv.setAttribute("class", "card");
+        cardDiv.setAttribute("id", "card" + (dealtCards.length + i));
+        cardDiv.setAttribute("onclick", "handleClick(" + (dealtCards.length + i) + ")");
+        container[0].appendChild(cardDiv);
+    }
+    cardImages();
+//TODO: remove newer cards after a set is submitted
+}
 
 deck = initializeDeck();
 dealtCards = dealCards(deck);
