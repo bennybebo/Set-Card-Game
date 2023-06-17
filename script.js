@@ -260,11 +260,29 @@ let scores = {
     player1: 0, 
     player2: 0
 };
+/*
+ * increase current player's score
+ */
 function increaseScore(player){
     scores[player]++;
+    // display scores for the corresponding player
+    if (player === 'player1') {
+        document.getElementById("points1").textContent = padNumber(scores[player]) + " points";
+    } else {
+        document.getElementById("points2").textContent = padNumber(scores[player]) + " points";
+    }
 }
+/*
+ * decrease current player's score
+ */
 function decreaseScore(player){
     scores[player]--;
+    // display scores for the corresponding player
+    if (player === 'player1') {
+        document.getElementById("points1").textContent = padNumber(scores[player]) + " points";
+    } else {
+        document.getElementById("points2").textContent = padNumber(scores[player]) + " points";
+    }
 }
 function printScores() {
     for (let player in scores) {
@@ -383,3 +401,8 @@ function hint() {
 deck = initializeDeck();
 dealtCards = dealCards(deck);
 cardImages();
+
+// Function to pad the number with leading zeros
+function padNumber(number) {
+    return number.toString().padStart(2, "0");
+}
