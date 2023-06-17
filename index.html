@@ -6,8 +6,60 @@
     
 </head>
 <body>
+    <!-- Header -->
+    <div class="header">
+        <nav>
+            <img src="./imgs/GameLogo.png" class="img">
+            <ul>
+                <!-- IF THE NEW GAME BUTTON DOES NOT WORK IT IS DUE TO NOT HAVING AN A TAG -->
+                <li class="btn" id="start-timer">New Game</li>
+                <li class="btn" onclick="hint()">Hint</li>
+                <li><a href="#" class="btn">About</a></li>
+            </ul>
+            <button type="button" onclick="toggle()" id="dmbtn"><span></span></button>
+        </nav>
+    </div>
 
-    <button type="button" onclick="hint()">Hint</button>
+    <!-- Left Column -->
+    <div class="left_column">
+        <ul>
+            <div class="time-layout">
+                <li>Time:</li>   
+                <div class="metadata">
+                    <li id="timer">00:00 sec</li>
+                </div>
+            </div>
+            <div class="points-layout">
+                <li style="text-align: left;">Points:</li>   
+                <div>
+                    <li>Player 1</li>
+                    <div class="metadata">
+                        <li id="timer">00 points</li>
+                    </div>
+
+                    <li>Player 2</li>
+                    <div class="metadata">
+                        <li id="timer">00 points</li>
+                    </div>
+                </div>
+            </div>
+            <div class="penalty-layout">
+                <li style="text-align: left;">Penalties:</li>   
+                <div>
+                    <li>Player 1</li>
+                    <div class="metadata">
+                        <li id="timer">-00 points</li>
+                    </div>
+
+                    <li>Player 2</li>
+                    <div class="metadata">
+                        <li id="timer">-00 points</li>
+                    </div>
+                </div>
+            </div>
+        </ul>
+    </div>
+    <!-- <button type="button" onclick="hint()">Hint</button> -->
     <button type="button" onclick="openNewCards()">Open 3 New Cards</button>
 
     <div id="message-container"></div>
@@ -26,6 +78,44 @@
         <div class="card" id="card12" onclick="handleClick(12)"></div>
       </div>
 
+    <script>
+        function toggle(){
+            var btn=document.getElementById("dmbtn");
+            btn.classList.toggle("active")
+            lightMode();
+        }
+
+        function lightMode(){
+            var page=document.querySelector('body');
+            page.classList.toggle('light-mode');
+
+            var selected_cards=document.querySelectorAll('.car.selected');
+            selected_cards.forEach(function(card){
+                card.classList.toggle('.light-mode .card.selected');
+            });
+        }
+        
+        document.getElementById('start-timer').addEventListener('click', start_timer);
+        let sec=0;
+        let min=0;
+        let duration;
+        function start_timer(){
+            sec=0;
+            min=0;
+            clearInterval(duration)
+            duration=setInterval(update_timer,1000)
+        }
+        const timer=document.getElementById('timer');
+        function update_timer(){
+            sec++;
+            if(sec >= 60){
+                sec=0;
+                min++;
+            }
+            const converted_time=`${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')} secs`;
+            timer.textContent=converted_time;
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>

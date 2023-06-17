@@ -1,5 +1,6 @@
 let selectedCards = [];
-let currentPlayer = "player1";
+let currentPlayer = null;
+let timeoutId;
 
 class Card {
     constructor(color, shape, number, shading) {
@@ -10,6 +11,9 @@ class Card {
     }
 }
 
+/*
+ * Function creates a set of 81 unique cards. Expects nothing as input and returns the set of cards
+ */
 function initializeDeck() {
     let deck = new Set();
 
@@ -26,6 +30,10 @@ function initializeDeck() {
     return deck;
 }
 
+/*
+ * Function removes 12 cards from the deck that contain at least one set.
+ * Expects a set of cards as input and returns an array of 12 cards.
+ */
 function dealCards(deck) {
     const deckArray = Array.from(deck);
     while (true) {
@@ -54,6 +62,10 @@ function dealCards(deck) {
     }
 }
 
+/*
+ * Removes three cards from the deck and adds them to the visible cards array.
+ * Expects an array of cards and a set of cards as input and returns nothing.
+ */
 function addThreeCards(visibleCards, deck) {
     const deckArray = Array.from(deck);
 
@@ -66,6 +78,10 @@ function addThreeCards(visibleCards, deck) {
     }
 }
 
+/*
+ * Determines if three cards are a set.
+ * Expects three cards as input and returns a boolean.
+ */
 function isSet(card1, card2, card3) {
     for (const attribute of Object.keys(card1)) { //For each attribute
       const values = new Set([card1[attribute], card2[attribute], card3[attribute]]);
@@ -76,6 +92,10 @@ function isSet(card1, card2, card3) {
     return true;
 }
 
+/*
+ * Gets all possible 3 card combinations from within an array of cards.
+ * Expects an array of cards as input and returns an array of possible combinations.
+ */
 function getPossibleCombinations(dealtCards) {
     const possibleCombinations = [];
 
@@ -132,8 +152,11 @@ function isValidSet(selectedCards) {    // Suppose selectedCards will have three
     return isValidSet;
 }
 
+/*
+ * Checks if there is a set within an array of cards.
+ * Expects an array of cards as input and returns a boolean.
+ */
 function containsSet(visibleCards) {
-    //Check if there is a set among the dealt cards
     const possibleCombinations = getPossibleCombinations(visibleCards);
     return possibleCombinations.some(([card1, card2, card3]) => isSet(card1, card2, card3));
 }
@@ -149,33 +172,35 @@ function handleClick(cardNumber) {
   
     if (selectedCards.length === 3) {
       checkSelectedCards();
-    //   setTimeout(clearSelection, 100);
     }
 }
 
+/*
+ * When selectedCards has 3 elements, check whether or not it is a set and handle each case.
+ * Expects nothing as input and returns nothing.
+ */
 function checkSelectedCards() {
-    isaSet = false;
-    if (isValidSet(selectedCards)) {
+    selectedCardsCopy = selectedCards;
+    clearSelection();
+    clearTimeout(timeoutId);
+    let isaSet = false;
+    if (isValidSet(selectedCardsCopy)) {
         isaSet=true;
-        console.log("Set found!");
         //Increase score of player
         increaseScore(currentPlayer);
         //Replace selected cards with new ones
-        replaceCards(deck, selectedCards);
-        //Clear the selection
+        replaceCards(selectedCardsCopy);
         printOutcome(isaSet);
-        clearSelection();
         //Update card images
         cardImages();
     }
     else {
-        console.log("Not a set.");
         //Decrease score of player
         decreaseScore(currentPlayer);
         //Clear the selection
         printOutcome(isaSet);
-        clearSelection();
     }
+    currentPlayer = null;
     printScores();
 }
 
@@ -184,9 +209,15 @@ function checkSelectedCards() {
   }
   
   function selectCard(card) {
-    selectedCards.push(card);
     const cardIndex = dealtCards.indexOf(card);
     const cardElement = document.querySelector(`.card:nth-child(${cardIndex + 1})`);
+    const isHinted = cardElement.style.outline !== '';
+    
+    if (isHinted) {
+      cardElement.style.outline = ''; // Remove the hint outline
+    }
+    
+    selectedCards.push(card);
     cardElement.classList.add('selected');
   }
   
@@ -217,7 +248,7 @@ function printOutcome(isaSet) {
             messageContainer.classList.add('not-set');
         }
     
-}
+        }
     
 
 // 2 players' scores object 
@@ -236,15 +267,60 @@ function printScores() {
         console.log(player + "'s score: " + scores[player]);
     }
 }
-function replaceCards(deck, selectedCards) {
-  const replacedCards = [];
-  for (let i = 0; i < selectedCards.length; i++) {
-    const randomCard = Array.from(deck)[Math.floor(Math.random() * deck.size)];
-    replacedCards.push(randomCard);
-    deck.delete(randomCard);
+
+/*
+ * Keyboard listener that changes who the current player is based off key press.
+ */
+document.addEventListener('keydown', function (event) {
+    if (currentPlayer === null) {
+      //First player to press a key becomes the current player
+      if (event.key === 'a') {
+        currentPlayer = 'player1';
+        clearTimeout(timeoutId); //Clear the timeout for the previous player (if any)
+        timeoutId = setTimeout(playerTimeout, 5000); //Set a 5 second timer
+      } 
+      else if (event.key === 'l') {
+        currentPlayer = 'player2';
+        clearTimeout(timeoutId); //Clear the timeout for the previous player (if any)
+        timeoutId = setTimeout(playerTimeout, 5000); //Set a 5 second timer
+      }
+    }
+});
+
+/*
+ * Function to handle player timeout.
+ * Expects nothing as input and returns nothing.
+ */ 
+function playerTimeout() {
+    clearSelection()
+    // Player timed out, handle the timeout logic here
+    if (currentPlayer === 'player1') {
+      decreaseScore('player1');
+    } else  {
+      decreaseScore('player2');
+    }
+    currentPlayer = null; //Reset the current player
+    timeoutId = null; //Reset the timeout ID
   }
-  return replacedCards;
-}
+
+  function replaceCards(selectedCardsCopy) { 
+    // Remove selected cards from dealtCards
+    for (const card of selectedCardsCopy) {
+        const cardIndex = dealtCards.findIndex((c) => c === card);
+        if (cardIndex !== -1) {
+          dealtCards.splice(cardIndex, 1);
+        }
+    }
+  
+    // Add three new cards from the deck
+    const deckArray = Array.from(deck);
+    for (let i = 0; i < 3; i++) {
+        const randomIndex = Math.floor(Math.random() * deckArray.length);
+        const randomCard = deckArray.splice(randomIndex, 1)[0];
+        dealtCards.push(randomCard);
+        deck.delete(randomCard);
+    }
+  }
 
 // add images to the html div elements
 function cardImages() {
@@ -259,13 +335,10 @@ function cardImages() {
         
         // Set the width and height of the image to match the box dimensions
         image.style.width = boxWidth + 'px';
-        image.style.height = boxHeight + 'px'; 
-        if (firstBox.hasChildNodes()) { //so we're not adding multiple images to one card
-            firstBox.removeChild(firstBox.firstChild);
-        }    
-        firstBox.appendChild(image);
+        image.style.height = boxHeight + 'px';       
+        firstBox.appendChild(image)
     }
-}
+  }
 
 
 function lenSelectedCards(selectedCards){
@@ -296,25 +369,7 @@ function hint() {
     }
 }
 
-/*Opens three new cards to add to the screen.
-Called when Open New Cards button is clicked.
-*/
-function openNewCards() {
-    container = document.getElementsByClassName("container");
-    for (let i = 0; i < 3; i++) {
-        deckArr = Array.from(deck);
-        let card = deckArr[Math.floor(Math.random() * deckArr.length)];
-        deck.delete(card);
-        dealtCards.push(card);
-        cardDiv = document.createElement("div");
-        cardDiv.setAttribute("class", "card");
-        cardDiv.setAttribute("id", "card" + (dealtCards.length + i));
-        cardDiv.setAttribute("onclick", "handleClick(" + (dealtCards.length + i) + ")");
-        container[0].appendChild(cardDiv);
-    }
-    cardImages();
-//TODO: remove newer cards after a set is submitted
-}
+
 
 deck = initializeDeck();
 dealtCards = dealCards(deck);
