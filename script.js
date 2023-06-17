@@ -173,7 +173,7 @@ function handleClick(cardNumber) {
     if (selectedCards.length === 3) {
       checkSelectedCards();
     }
-}
+  }
 
 /*
  * When selectedCards has 3 elements, check whether or not it is a set and handle each case.
@@ -203,7 +203,7 @@ function checkSelectedCards() {
     currentPlayer = null;
     printScores();
 }
-
+  
   function isSelected(card) {
     return selectedCards.includes(card);
   }
@@ -238,18 +238,21 @@ function checkSelectedCards() {
   }
 
 function printOutcome(isaSet) {
-        const messageContainer = document.getElementById('message-container');
-        if(isaSet == true){
-            messageContainer.textContent = 'Set';
-            messageContainer.classList.add('set');
-        }
-        else{
-            messageContainer.textContent = 'Not a Set';
-            messageContainer.classList.add('not-set');
-        }
-    
-        }
-    
+    const messageContainer = document.getElementById('message-container');
+    if(isaSet == true){
+         messageContainer.textContent = 'Set';
+        messageContainer.classList.add('set');
+    }
+    else{
+        messageContainer.textContent = 'Not a Set';
+        messageContainer.classList.add('not-set');
+    }
+    setTimeout(() => {
+        messageContainer.textContent = '';
+        messageContainer.classList.remove('set', 'not-set');
+    }, 3000);
+}
+
 
 // 2 players' scores object 
 let scores = {
@@ -324,19 +327,27 @@ function playerTimeout() {
 
 // add images to the html div elements
 function cardImages() {
-    for (var i = 1; i < dealtCards.length + 1; i++){
-        img_src = "imgs/" + dealtCards[i-1].color + "_" + dealtCards[i-1].shape + "_" + dealtCards[i-1].number + "_" + dealtCards[i-1].shading + ".jpg"
-        const firstBox = document.querySelector('.card:nth-child(' + i + ')');
-        const image = document.createElement('img');
-        image.src = img_src
-        image.alt = 'Image';
-        const boxWidth = firstBox.offsetWidth;
-        const boxHeight = firstBox.offsetHeight;
-        
-        // Set the width and height of the image to match the box dimensions
-        image.style.width = boxWidth + 'px';
-        image.style.height = boxHeight + 'px';       
-        firstBox.appendChild(image)
+    for (var i = 1; i < dealtCards.length + 1; i++) {
+      const cardIndex = i - 1;
+      const card = dealtCards[cardIndex];
+      const imgSrc = "imgs/" + card.color + "_" + card.shape + "_" + card.number + "_" + card.shading + ".jpg";
+  
+      const cardElement = document.querySelector(`.card:nth-child(${i})`);
+      // Clear previous image elements
+      cardElement.innerHTML = '';
+  
+      const image = document.createElement('img');
+      image.src = imgSrc;
+      image.alt = 'Image';
+  
+      const boxWidth = cardElement.offsetWidth;
+      const boxHeight = cardElement.offsetHeight;
+  
+      // Set the width and height of the image to match the box dimensions
+      image.style.width = boxWidth + 'px';
+      image.style.height = boxHeight + 'px';
+  
+      cardElement.appendChild(image);
     }
   }
 
@@ -345,30 +356,27 @@ function lenSelectedCards(selectedCards){
     return selectedCards.length;
 }
 
-/*finds the first set on the screen and highlights the first two cards.
-called when hint button is clicked.
-*/
+//provides the player with 2/3 cards of a set
 function hint() {
     let combos = getPossibleCombinations(dealtCards);
     for (const combo of combos) {
         if (isValidSet(combo)) {
-            //highlight 2/3 cards
+        //highlight 2/3 cards
             for (let i = 0; i < combo.length - 1; i++) {
                 var card = document.getElementById("card" + (dealtCards.indexOf(combo[i]) + 1));
                 card.style.outline = '5px solid rgba(152, 209, 245, .7)';
+        }
+        //remove outlines on cards
+        setTimeout(() => {
+            for (let i = 0; i < combo.length - 1; i++) {
+                var card = document.getElementById("card" + (dealtCards.indexOf(combo[i]) + 1));
+                card.style.outline = "none";
             }
-            //remove outlines on cards
-            setTimeout(() => {
-                for (let i = 0; i < combo.length - 1; i++) {
-                    var card = document.getElementById("card" + (dealtCards.indexOf(combo[i]) + 1));
-                    card.style.outline = "none";
-                }
-            }, 5000);
-            break;
+        }, 5000);
+        break;
         }
     }
 }
-
 
 
 deck = initializeDeck();
