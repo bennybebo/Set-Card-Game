@@ -116,6 +116,10 @@ function getPossibleCombinations(dealtCards) {
     return possibleCombinations;
 }
 
+/*
+ * Compare one element from each selected cards
+ * Called by isValidSet function; expecting one elements from each selected cards as input
+ */
 function compareElements(element1, element2, element3) {
     let result = 0;
     // Compare each element from three cards, e.g. only color here
@@ -129,9 +133,12 @@ function compareElements(element1, element2, element3) {
     return result;
 }
 
+/*
+ * Check whether the three cards selected by players are a set
+ * Expecting the array selectedCards with three items as input
+ */
 function isValidSet(selectedCards) {    // Suppose selectedCards will have three elements
     let isValidSet = false;
-    let count = 0;
     // Compare each corresponding element from three cards
     let colorResult = compareElements(selectedCards[0].color, selectedCards[1].color, selectedCards[2].color);
     let shapeResult = compareElements(selectedCards[0].shape, selectedCards[1].shape, selectedCards[2].shape);
@@ -141,13 +148,7 @@ function isValidSet(selectedCards) {    // Suppose selectedCards will have three
     if ((colorResult == -1) || (shapeResult == -1) || (numberResult == -1) || (shadingResult == -1)) {
         isValidSet = false;
     } else {
-        count = colorResult + shapeResult + numberResult + shadingResult;
-        // 0 means 0 same element and 4 different elements
-        // 1 means 1 same element and 3 different elements
-        // 3 means 3 same elements and 1 different elements
-        if ((count == 0) || (count == 1) || (count == 3)) {
-            isValidSet = true;
-        }
+        isValidSet = true;
     }
     return isValidSet;
 }
