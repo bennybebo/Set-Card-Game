@@ -43,26 +43,11 @@
                     </div>
                 </div>
             </div>
-            <!--
-            <div class="penalty-layout">
-                <li style="text-align: left;">Penalties:</li>   
-                <div>
-                    <li>Player 1</li>
-                    <div class="metadata">
-                        <li id="minPoints1">-00 points</li>
-                    </div>
-
-                    <li>Player 2</li>
-                    <div class="metadata">
-                        <li id="minPoints2">-00 points</li>
-                    </div>
-                </div>
-            </div>
-            -->
         </ul>
     </div>
-
+    <!-- Displays various messages; who's turn, whether a set or not -->
     <div id="message-container"></div>
+    <!-- deck of cards -->
     <div class="container">
         <div class="card" id="card1" onclick="handleClick(1)"></div>
         <div class="card" id="card2" onclick="handleClick(2)"></div>
@@ -79,12 +64,18 @@
     </div>
 
     <script>
+        /*
+         * toggle function calls the light mode function to change the 
+         * game's theme for dark to light and vice-versa 
+         */
         function toggle(){
             var btn=document.getElementById("dmbtn");
             btn.classList.toggle("active")
             lightMode();
         }
-
+        /*
+         * lightMode function changes from dark themed game to light themed game 
+         */
         function lightMode(){
             var page=document.querySelector('body');
             page.classList.toggle('light-mode');
@@ -95,11 +86,21 @@
             });
         }
         
+        /*
+         * Function to reset scores when 'New Game' is clicked
+         */
         const reset_score=document.getElementById('start-timer');
         reset_score.addEventListener('click', function(){
             resetScores();
         });
+        
 
+        /*
+         * Start timer and update timer;
+         * Start timer already starts the timer when the page loads and whenever 'New Game'
+         * is pressed it restarts the timer
+         * Update timer updates the time 
+         */
         document.getElementById('start-timer').addEventListener('click', start_timer);
         let sec=0;
         let min=0;
