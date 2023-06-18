@@ -9,7 +9,7 @@ The Set game is a card game where player(s) try to identify sets of cards based 
 
 ## What the Program Is
 
-This program is a basic Set game. The game uses a deck of cards with four attributes: color, shape, number, and shading. Every card in the deck has a unique value. The object of the game is for the player(S) to identify a set of three cards that satisfy certain conditions.
+This program is a basic Set game. The game uses a deck of cards with four attributes: color, shape, number, and shading. Every card in the deck has a unique value. The object of the game is for the player(s) to identify a set of three cards that satisfy certain conditions.
 
 ## How to Download and Install It
 
