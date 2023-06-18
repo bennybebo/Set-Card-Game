@@ -242,7 +242,7 @@ function checkSelectedCards() {
 function printOutcome(isaSet) {
     const messageContainer = document.getElementById('message-container');
     if(isaSet == true){
-         messageContainer.textContent = 'Set';
+        messageContainer.textContent = 'Set';
         messageContainer.classList.add('set');
     }
     else{
@@ -308,45 +308,54 @@ function resetScores() {
  */
 document.addEventListener('keydown', function (event) {
     if (currentPlayer === null) {
+        const messageContainer = document.getElementById('message-container');
       //First player to press a key becomes the current player
-      if (event.key === 'a') {
-        currentPlayer = 'player1';
-        clearTimeout(timeoutId); //Clear the timeout for the previous player (if any)
-        timeoutId = setTimeout(playerTimeout, 5000); //Set a 5 second timer
-      } 
-      else if (event.key === 'l') {
-        currentPlayer = 'player2';
-        clearTimeout(timeoutId); //Clear the timeout for the previous player (if any)
-        timeoutId = setTimeout(playerTimeout, 5000); //Set a 5 second timer
-      }
+        if (event.key === 'a') {
+            messageContainer.textContent='Player 1\'s turn';
+            messageContainer.classList.add('set');
+            currentPlayer = 'player1';
+            clearTimeout(timeoutId); //Clear the timeout for the previous player (if any)
+            timeoutId = setTimeout(playerTimeout, 5000); //Set a 5 second timer
+        } 
+        else if (event.key === 'l') {
+            messageContainer.textContent='Player 2\'s turn';
+            messageContainer.classList.add('set');
+            currentPlayer = 'player2';
+            clearTimeout(timeoutId); //Clear the timeout for the previous player (if any)
+            timeoutId = setTimeout(playerTimeout, 5000); //Set a 5 second timer
+        }
+        setTimeout(() => {
+            messageContainer.textContent = '';
+            messageContainer.classList.remove('Player 1\'s turn', 'Player 2\'s turn');
+        }, 5000);
     }
 });
 
 /*
  * Function to handle player timeout.
  * Expects nothing as input and returns nothing.
- */ 
+ */
 function playerTimeout() {
     clearSelection()
     // Player timed out, handle the timeout logic here
     if (currentPlayer === 'player1') {
-      decreaseScore('player1');
+        decreaseScore('player1');
     } else  {
-      decreaseScore('player2');
+        decreaseScore('player2');
     }
     currentPlayer = null; //Reset the current player
     timeoutId = null; //Reset the timeout ID
-  }
+    }
 
-  function replaceCards(selectedCardsCopy) { 
+    function replaceCards(selectedCardsCopy) { 
     // Remove selected cards from dealtCards
     for (const card of selectedCardsCopy) {
         const cardIndex = dealtCards.findIndex((c) => c === card);
         if (cardIndex !== -1) {
-          dealtCards.splice(cardIndex, 1);
+            dealtCards.splice(cardIndex, 1);
         }
     }
-  
+
     // Add three new cards from the deck
     const deckArray = Array.from(deck);
     for (let i = 0; i < 3; i++) {
@@ -355,33 +364,33 @@ function playerTimeout() {
         dealtCards.push(randomCard);
         deck.delete(randomCard);
     }
-  }
+}
 
 // add images to the html div elements
 function cardImages() {
     for (var i = 1; i < dealtCards.length + 1; i++) {
-      const cardIndex = i - 1;
-      const card = dealtCards[cardIndex];
-      const imgSrc = "imgs/" + card.color + "_" + card.shape + "_" + card.number + "_" + card.shading + ".jpg";
-  
-      const cardElement = document.querySelector(`.card:nth-child(${i})`);
-      // Clear previous image elements
-      cardElement.innerHTML = '';
-  
-      const image = document.createElement('img');
-      image.src = imgSrc;
-      image.alt = 'Image';
-  
-      const boxWidth = cardElement.offsetWidth;
-      const boxHeight = cardElement.offsetHeight;
-  
-      // Set the width and height of the image to match the box dimensions
-      image.style.width = boxWidth + 'px';
-      image.style.height = boxHeight + 'px';
-  
-      cardElement.appendChild(image);
+        const cardIndex = i - 1;
+        const card = dealtCards[cardIndex];
+        const imgSrc = "imgs/" + card.color + "_" + card.shape + "_" + card.number + "_" + card.shading + ".jpg";
+    
+        const cardElement = document.querySelector(`.card:nth-child(${i})`);
+        // Clear previous image elements
+        cardElement.innerHTML = '';
+    
+        const image = document.createElement('img');
+        image.src = imgSrc;
+        image.alt = 'Image';
+    
+        const boxWidth = cardElement.offsetWidth;
+        const boxHeight = cardElement.offsetHeight;
+    
+        // Set the width and height of the image to match the box dimensions
+        image.style.width = boxWidth + 'px';
+        image.style.height = boxHeight + 'px';
+    
+        cardElement.appendChild(image);
     }
-  }
+}
 
 
 function lenSelectedCards(selectedCards){
