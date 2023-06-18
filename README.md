@@ -1,5 +1,5 @@
 # Set Game
-The Set game is a card game where player(s) try to identify sets of cards based on certain attributes. This README file provides information about the program, how to download and install it, and how to play the game.
+The Set game is a card game where player(s) try to identify sets of cards based on certain attributes. This README file provides information about what the program is, how to download and install it, and how to play the game.
 
 ## Table of Contents
 
@@ -9,7 +9,7 @@ The Set game is a card game where player(s) try to identify sets of cards based 
 
 ## What the Program Is
 
-This program is a basic Set game. The game uses a deck that consists of cards with four attributes: color, shape, number, and shading. All cards in the deck have unique values. The goal of the game is for player(s) to identify sets of three cards that satisfy specific conditions.
+This program is a basic Set game. The game uses a deck of cards with four attributes: color, shape, number, and shading. Every card in the deck has a unique value. The object of the game is for the player(S) to identify a set of three cards that satisfy certain conditions.
 
 ## How to Download and Install It
 
