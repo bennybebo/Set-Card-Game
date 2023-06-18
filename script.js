@@ -407,11 +407,11 @@ function hint() {
             //     var card = document.getElementById("card" + (dealtCards.indexOf(combo[i]) + 1));
             //     card.style.outline = '5px solid rgba(152, 209, 245, .7)';
             // }
-            var hint1=document.getElementById('hint1');
-            hint1.addEventListener('click',function(){
+            // var hint1=document.getElementById('hint1');
+            // hint1.addEventListener('click',function(){
                 var card = document.getElementById("card" + (dealtCards.indexOf(combo[0]) + 1));
                 card.style.outline = '5px solid #b700ff';
-            });
+            // });
 
             var hint2=document.getElementById('hint2');
             hint2.addEventListener('click',function(){
