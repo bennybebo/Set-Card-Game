@@ -403,18 +403,29 @@ function hint() {
     for (const combo of combos) {
         if (isValidSet(combo)) {
         //highlight 2/3 cards
-            for (let i = 0; i < combo.length - 1; i++) {
-                var card = document.getElementById("card" + (dealtCards.indexOf(combo[i]) + 1));
-                card.style.outline = '5px solid rgba(152, 209, 245, .7)';
-        }
+            // for (let i = 0; i < combo.length - 1; i++) {
+            //     var card = document.getElementById("card" + (dealtCards.indexOf(combo[i]) + 1));
+            //     card.style.outline = '5px solid rgba(152, 209, 245, .7)';
+            // }
+            var hint1=document.getElementById('hint1');
+            hint1.addEventListener('click',function(){
+                var card = document.getElementById("card" + (dealtCards.indexOf(combo[0]) + 1));
+                card.style.outline = '5px solid #b700ff';
+            });
+
+            var hint2=document.getElementById('hint2');
+            hint2.addEventListener('click',function(){
+                var card = document.getElementById("card" + (dealtCards.indexOf(combo[1]) + 1));
+                card.style.outline = '5px solid #b700ff';
+            });
         //remove outlines on cards
-        setTimeout(() => {
+            setTimeout(() => {
             for (let i = 0; i < combo.length - 1; i++) {
                 var card = document.getElementById("card" + (dealtCards.indexOf(combo[i]) + 1));
                 card.style.outline = "none";
             }
-        }, 5000);
-        break;
+            }, 5000);
+            break;
         }
     }
 }

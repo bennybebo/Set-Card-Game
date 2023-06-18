@@ -10,10 +10,16 @@
     <div class="header">
         <nav>
             <img src="./imgs/GameLogo.png" class="img">
-            <ul>
+            <ul class="header_lists">
                 <!-- New button will restart the timer and reset the players scores -->
-                <li class="btn" id="start-timer" onclick="resetScores()">New Game</li>
-                <li class="btn" onclick="hint()">Hint</li>
+                <li class="btn" id="start-timer" onclick="resetScores">New Game</li>
+                <div class="dropDown">    
+                    <li class="btn">Hints</li>
+                    <div class="dropDown_hints">
+                        <a id="hint1" onclick="hint()">😱Hint 1</a>
+                        <a id="hint2" onclick="hint()">🥵Hint 2</a>
+                    </div>  
+                </div>
                 <li><a href="./about.html" class="btn">About</a></li>
             </ul>
             <button type="button" onclick="toggle()" id="dmbtn"><span></span></button>
@@ -85,7 +91,7 @@
             var page=document.querySelector('body');
             page.classList.toggle('light-mode');
 
-            var selected_cards=document.querySelectorAll('.car.selected');
+            var selected_cards=document.querySelectorAll('.card.selected');
             selected_cards.forEach(function(card){
                 card.classList.toggle('.light-mode .card.selected');
             });
@@ -116,7 +122,7 @@
             clearInterval(duration)
             duration=setInterval(update_timer,1000)
         }
-        window.onload(start_timer());
+        window.onload=start_timer();
         function update_timer(){
             const timer=document.getElementById('timer');
             sec++;
