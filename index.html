@@ -11,8 +11,8 @@
         <nav>
             <img src="./imgs/GameLogo.png" class="img">
             <ul>
-                <!-- IF THE NEW GAME BUTTON DOES NOT WORK IT IS DUE TO NOT HAVING AN A TAG -->
-                <li class="btn" id="start-timer">New Game</li>
+                <!-- New button will restart the timer and reset the players scores -->
+                <li class="btn" id="start-timer" onclick="resetScores()">New Game</li>
                 <li class="btn" onclick="hint()">Hint</li>
                 <li><a href="#" class="btn">About</a></li>
             </ul>
@@ -61,7 +61,6 @@
             -->
         </ul>
     </div>
-    <!-- <button type="button" onclick="hint()">Hint</button> -->
 
     <div id="message-container"></div>
     <div class="container">
@@ -77,7 +76,7 @@
         <div class="card" id="card10" onclick="handleClick(10)"></div>
         <div class="card" id="card11" onclick="handleClick(11)"></div>
         <div class="card" id="card12" onclick="handleClick(12)"></div>
-      </div>
+    </div>
 
     <script>
         function toggle(){
@@ -96,6 +95,11 @@
             });
         }
         
+        const reset_score=document.getElementById('start-timer');
+        reset_score.addEventListener('click', function(){
+            resetScores();
+        });
+
         document.getElementById('start-timer').addEventListener('click', start_timer);
         let sec=0;
         let min=0;
@@ -106,8 +110,9 @@
             clearInterval(duration)
             duration=setInterval(update_timer,1000)
         }
-        const timer=document.getElementById('timer');
+        window.onload(start_timer());
         function update_timer(){
+            const timer=document.getElementById('timer');
             sec++;
             if(sec >= 60){
                 sec=0;

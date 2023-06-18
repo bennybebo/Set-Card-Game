@@ -295,10 +295,12 @@ function printScores() {
 * reset current scores
 */
 function resetScores() {
-    scores.player1 = 0;
-    scores.player2 = 0;
-    document.getElementById("points1").textContent = padNumber(scores.player1) + " points";
-    document.getElementById("points2").textContent = padNumber(scores.player2) + " points";
+    scores={
+        player1: 0,
+        player2: 0
+    };
+    document.getElementById("points1").textContent = padNumber('0') + " points";
+    document.getElementById("points2").textContent = padNumber('0') + " points";
 }
 
 /*
