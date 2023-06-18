@@ -40,7 +40,7 @@ After a player calls, that player needs to quickly select three cards using mous
 
 After a set is found, those three cards will be replaced with three random new cards.
 
-Additional features in this game include a hint button, a time tracker, and a 2-player mode. The hint button provides options to players with two cards that form a correct pair there is a drop down menu on hints button where you can select if you want both the cards as hints or just one, helping them find the second and the third card respective to their decision to ask for both hints or just one. The time tracker keeps track of the time elapsed during the game. In 2-player mode, both players can play the game at the same time and compete for the highest score.
+Additional features in this game include a hint button, a time tracker, and a 2-player mode. The hint button provides options to players with two cards that form a correct pair. There is a drop down menu on hints button where the players can decide if they want both the cards as hints or just one, helping them find the second and the third card respective to their decision to ask for both hints or just one. The time tracker keeps track of the time elapsed during the game. In 2-player mode, both players can play the game at the same time and compete for the highest score.
 
 Click the "New Game" button to start a new game. The timer and points will be reset to zero.
 
