@@ -118,6 +118,7 @@ nav ul li a{
 
 .header_lists:hover .dropDown_hints{
     display: block;
+    margin-left: 1.25%;
 }
 
 .dropDown_hints a{
