@@ -116,7 +116,7 @@ nav ul li a{
     background-color: #88a6c7;
 }
 
-.header_lists:hover .dropDown_hints{
+.dropDown:hover .dropDown_hints{
     display: block;
     margin-left: 1.25%;
 }
