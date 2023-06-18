@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Set</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        
+    </head>
+    <body>
+        <!-- Header -->
+        <div class="header">
+            <nav>
+                <img src="./imgs/GameLogo.png" class="img">
+                <ul>
+                    <!-- New button will restart the timer and reset the players scores -->
+                    <!-- <li class="btn" id="start-timer" onclick="resetScores()">New Game</li> -->
+                    <li><a href="./index.html" class="btn">Back</a></li>
+                </ul>
+                <button type="button" onclick="toggle()" id="dmbtn"><span></span></button>
+            </nav>
+        </div>
+
+        <div class="info">
+            <h1>Rules</h1>
+            <p>The objective of this game is simple, you have select a 'Set' of three cards from a deck of 12 cards laying on the table.</p>
+            <p>Each card has a unique version of the following four characteristics:</p>
+            <div class="characteristics">
+                <ul>
+                    <li>COLOR: Each card has one of three colors: red, green, or blue.</li>
+                    <li>SYMBOL: Each card contains one of three symbols: ovals, squiggles, or diamonds.</li>
+                    <li>NUMBER: Each card has either one, two, or three symbols.</li>
+                    <li>SHADING: Each card has a shading of either filled, empty, or striped background.</li>
+                </ul>
+            </div>
+            <div class="examples">
+                <h2>Examples of sets:</h2>
+                <ul>
+                    <li>COLOR: different on each card, SYMBOL: the same on each card (oval), NUMBER: the same on each (two), SHADING: the same on each card (solid)</li>
+                    <li>COLOR: different on each card, SYMBOL: different on each card (oval), NUMBER: different on each (two), SHADING: different on each card (solid)</li>
+                    <li>COLOR: the same on each card, SYMBOL: the same on each card (oval), NUMBER: different on each (two), SHADING: different on each card (solid)</li>
+                </ul>
+            </div>
+        </div>
+
+        <script>
+            /*
+             * toggle function calls the light mode function to change the 
+             * game's theme for dark to light and vice-versa 
+             */
+            function toggle(){
+                var btn=document.getElementById("dmbtn");
+                btn.classList.toggle("active")
+                lightMode();
+            }
+            /*
+             * lightMode function changes from dark themed game to light themed game 
+             */
+            function lightMode(){
+                var page=document.querySelector('body');
+                page.classList.toggle('light-mode');
+            }
+        </script>    
+    </body>
+</html>
