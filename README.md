@@ -21,6 +21,10 @@ To run this program, you need to have Visual Studio Code (VSCode) installed on y
 
 3. Run the "index.html" file to start the game.
 
+4. Press "New Game" button
+
+5. Press keyboard 'a' to confirm as player 1 and 'l' for player 2.
+
 ## How to Play
 
 The program is a basic Set card game. The goal is to find sets of three cards that satisfy the following conditions: A "set" consists of three cards in which each feature is either the same on each card or is different on each card.  That is to say, any feature in the "set"  of three cards in either common to all the cards or is different on each card.
