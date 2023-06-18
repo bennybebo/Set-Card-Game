@@ -238,6 +238,7 @@ function checkSelectedCards() {
     selectedCards = [];
   }
 
+//  
 function printOutcome(isaSet) {
     const messageContainer = document.getElementById('message-container');
     if(isaSet == true){
