@@ -236,10 +236,9 @@ function checkSelectedCards() {
     //Replace selected cards with new ones
     replaceCards(selectedCardsCopy);
     printOutcome(isaSet);
-    // if (deck.size == 0 && !(containsSet(dealtCards))){
-    //   printGameOver()
-    // }
-    printGameOver()
+    if (deck.size == 0 && !(containsSet(dealtCards))){
+      printGameOver()
+    }
     //Update card images
     cardImages();
   } else {
