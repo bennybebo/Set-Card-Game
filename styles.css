@@ -270,11 +270,11 @@ li{
 
 
 .card.selected {
-    outline: 6px solid #43d3b9;
+    outline: 8px solid #43d3b9;
 }
 
 .light-mode .card.selected{
-    outline: 6px solid #272c39;
+    outline: 8px solid #272c39;
 }
 
 #message-container {
