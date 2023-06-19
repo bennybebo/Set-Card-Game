@@ -513,32 +513,51 @@ function lenSelectedCards(selectedCards) {
  */
 function hint() {
   let combos = getPossibleCombinations(dealtCards);
-  for (const combo of combos) {
-    if (isValidSet(combo)) {
-      var card = document.getElementById(
-        "card" + (dealtCards.indexOf(combo[0]) + 1)
-      );
-      card.style.outline = "5px solid #b700ff";
+    for (const combo of combos) {
+        if (isValidSet(combo)) {
+            var card = document.getElementById(
+            "card" + (dealtCards.indexOf(combo[0]) + 1)
+            );
+            card.style.outline = "5px solid #b700ff";
 
-      var hint2 = document.getElementById("hint2");
-      hint2.addEventListener("click", function () {
-        var card = document.getElementById(
-          "card" + (dealtCards.indexOf(combo[1]) + 1)
-        );
-        card.style.outline = "5px solid #b700ff";
-      });
-      //remove outlines on cards
-      setTimeout(() => {
-        for (let i = 0; i < combo.length - 1; i++) {
-          var card = document.getElementById(
-            "card" + (dealtCards.indexOf(combo[i]) + 1)
-          );
-          card.style.outline = "5px solid rgba(255, 0, 0, 0.0)";
+            setTimeout(() => {
+                var card = document.getElementById(
+                "card" + (dealtCards.indexOf(combo[i]) + 1)
+                );
+                card.style.outline = "5px solid rgba(255, 0, 0, 0.0)";
+            }, 5000);
+            break;
         }
-      }, 5000);
-      break;
     }
-  }
+}
+/* Provides the player with hints, and
+ * removes outlines on cards
+ * Expects nothing and returns nothing
+ */
+function hint2() {
+    let combos = getPossibleCombinations(dealtCards);
+    for (const combo of combos) {
+        if (isValidSet(combo)) {
+        
+            for (let i = 0; i < combo.length - 1; i++) {
+                var card = document.getElementById(
+                "card" + (dealtCards.indexOf(combo[i]) + 1)
+                );
+                card.style.outline = "5px solid #b700ff";
+            }
+
+            //remove outlines on cards
+            setTimeout(() => {
+            for (let i = 0; i < combo.length - 1; i++) {
+                var card = document.getElementById(
+                "card" + (dealtCards.indexOf(combo[i]) + 1)
+                );
+                card.style.outline = "5px solid rgba(255, 0, 0, 0.0)";
+            }
+            }, 5000);
+            break;
+        }
+    }
 }
 
 /* Opens three new cards to add to the screen.
