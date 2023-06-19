@@ -107,6 +107,7 @@ function isSet(card1, card2, card3) {
 function getPossibleCombinations(dealtCards) {
   const possibleCombinations = [];
 
+  //Recursive function to loop through an array and get all combinations starting at a given index
   function backtrack(startIndex, currentCombination) {
     if (currentCombination.length === 3) {
       possibleCombinations.push(currentCombination.slice());
@@ -185,8 +186,7 @@ function isValidSet(selectedCards) {
   } else {
     isValidSet = true;
   }
-  //TODO: delete
-  console.log(isValidSet);
+
   return isValidSet;
 }
 
@@ -519,7 +519,6 @@ function hint() {
         "card" + (dealtCards.indexOf(combo[0]) + 1)
       );
       card.style.outline = "5px solid #b700ff";
-      // });
 
       var hint2 = document.getElementById("hint2");
       hint2.addEventListener("click", function () {
@@ -573,8 +572,11 @@ function printGameOver() {
   if(scores.player1 > scores.player2){
     messageContainer.textContent = "Last set found! Player 1 wins!";
   }
-  if(scores.player2 > scores.player1){
+  else if(scores.player2 > scores.player1){
     messageContainer.textContent = "Last set found! Player 2 wins!";
+  } 
+  else {
+    messageContainer.textContent = "Last set found! Tie game!";
   }
   messageContainer.classList.add("game-over");
   setTimeout(() => {
