@@ -47,7 +47,7 @@ function dealCards(deck) {
         }
         //Check if there is a set among the dealt cards
         const possibleCombinations = getPossibleCombinations(dealtCards);
-        const containsValidSet = possibleCombinations.some(([card1, card2, card3]) => isSet(card1, card2, card3));
+        const containsValidSet = possibleCombinations.some(([card1, card2, card3]) => isValidSet([card1, card2, card3]));
         if (containsValidSet) {
             //Remove the dealt cards from the deck
             for (const card of dealtCards) {
@@ -123,9 +123,9 @@ function getPossibleCombinations(dealtCards) {
 function compareElements(element1, element2, element3) {
     let result = 0;
     // Compare each element from three cards, e.g. only color here
-    if ((element1 === element2) && (element2 === element3)) {
+    if ((element1 == element2) && (element2 == element3)) {
         result = 1;     // if all the elements are equal, all three cards have the same color
-    } else if ((element1 !== element2) && (element1 !== element3) && (element2 !== element3)) {
+    } else if ((element1 != element2) && (element1 != element3) && (element2 != element3)) {
         result = 0;     // if none of the element is equal, all three cards have different colors
     } else {
         result = -1;    // if only two of the elements are equal, they are not qualified
@@ -150,6 +150,8 @@ function isValidSet(selectedCards) {    // Suppose selectedCards will have three
     } else {
         isValidSet = true;
     }
+        //TODO: delete
+        console.log(isValidSet);
     return isValidSet;
 }
 
@@ -159,7 +161,7 @@ function isValidSet(selectedCards) {    // Suppose selectedCards will have three
  */
 function containsSet(visibleCards) {
     const possibleCombinations = getPossibleCombinations(visibleCards);
-    return possibleCombinations.some(([card1, card2, card3]) => isSet(card1, card2, card3));
+    return possibleCombinations.some(([card1, card2, card3]) => isValidSet([card1, card2, card3]));
 }
  
 function handleClick(cardNumber) {
@@ -347,7 +349,7 @@ function playerTimeout() {
     timeoutId = null; //Reset the timeout ID
     }
 
-    function replaceCards(selectedCardsCopy) { 
+function replaceCards(selectedCardsCopy) { 
     // Remove selected cards from dealtCards
     for (const card of selectedCardsCopy) {
         const cardIndex = dealtCards.findIndex((c) => c === card);
@@ -356,13 +358,23 @@ function playerTimeout() {
         }
     }
 
-    // Add three new cards from the deck
-    const deckArray = Array.from(deck);
-    for (let i = 0; i < 3; i++) {
-        const randomIndex = Math.floor(Math.random() * deckArray.length);
-        const randomCard = deckArray.splice(randomIndex, 1)[0];
-        dealtCards.push(randomCard);
-        deck.delete(randomCard);
+    if (dealtCards.length > 9) {
+        //delete extra cards
+        container = document.getElementsByClassName("container");
+        for (let i = 0; i < 3; i++) {
+            container[0].lastChild.remove();
+        }
+    }
+    else {
+        // Add three new cards from the deck
+        const deckArray = Array.from(deck);
+        for (let i = 0; i < 3; i++) {
+            const randomIndex = Math.floor(Math.random() * deckArray.length);
+            const randomCard = deckArray.splice(randomIndex, 1)[0];
+            dealtCards.push(randomCard);
+            deck.delete(randomCard);
+        }
+
     }
 }
 
@@ -422,12 +434,31 @@ function hint() {
             setTimeout(() => {
             for (let i = 0; i < combo.length - 1; i++) {
                 var card = document.getElementById("card" + (dealtCards.indexOf(combo[i]) + 1));
-                card.style.outline = "none";
+                card.style.outline = '5px solid rgba(255, 0, 0, 0.0)';
             }
             }, 5000);
             break;
         }
     }
+}
+
+/*Opens three new cards to add to the screen.
+Called when Open New Cards button is clicked.
+*/
+function openNewCards() {
+    container = document.getElementsByClassName("container");
+    for (let i = 0; i < 3; i+=1) {
+        deckArr = Array.from(deck);
+        let card = deckArr[Math.floor(Math.random() * deckArr.length)];
+        deck.delete(card);
+        dealtCards.push(card);
+        cardDiv = document.createElement("div");
+        cardDiv.setAttribute("class", "card");
+        cardDiv.setAttribute("id", "card" + dealtCards.length);
+        cardDiv.setAttribute("onclick", "handleClick(" + dealtCards.length + ")");
+        container[0].appendChild(cardDiv);
+    }
+    cardImages();
 }
 
 
