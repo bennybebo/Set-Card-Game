@@ -571,7 +571,12 @@ function openNewCards() {
  */
 function printGameOver() {
   const messageContainer = document.getElementById("message-container");
-  messageContainer.textContent = "Game Over!";
+  if(scores.player1 > scores.player2){
+    messageContainer.textContent = "Last set found! Player 1 wins!";
+  }
+  if(scores.player2 > scores.player1){
+    messageContainer.textContent = "Last set found! Player 2 wins!";
+  }
   messageContainer.classList.add("game-over");
   setTimeout(() => {
     messageContainer.textContent = "";
