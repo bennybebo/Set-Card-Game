@@ -570,12 +570,12 @@ function openNewCards() {
  * Expects nothing and returns nothing
  */
 function printGameOver() {
-  const gameOverContainer = document.getElementById("game-over-container");
-  gameOverContainer.textContent = "Game Over!";
-  gameOverContainer.classList.add("game-over");
+  const messageContainer = document.getElementById("message-container");
+  messageContainer.textContent = "Game Over!";
+  messageContainer.classList.add("game-over");
   setTimeout(() => {
-    gameOverContainer.textContent = "";
-    gameOverContainer.classList.remove("game-set");
+    messageContainer.textContent = "";
+    messageContainer.classList.remove("message-container");
   }, 3000);
 }
 
