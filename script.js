@@ -236,6 +236,10 @@ function checkSelectedCards() {
     //Replace selected cards with new ones
     replaceCards(selectedCardsCopy);
     printOutcome(isaSet);
+    // if (deck.size == 0 && !(containsSet(dealtCards))){
+    //   printGameOver()
+    // }
+    printGameOver()
     //Update card images
     cardImages();
   } else {
@@ -557,6 +561,22 @@ function openNewCards() {
     container[0].appendChild(cardDiv);
   }
   cardImages();
+}
+
+
+
+/*
+ * Prints "game over" when the game is over.
+ * Expects nothing and returns nothing
+ */
+function printGameOver() {
+  const gameOverContainer = document.getElementById("game-over-container");
+  gameOverContainer.textContent = "Game Over!";
+  gameOverContainer.classList.add("game-over");
+  setTimeout(() => {
+    gameOverContainer.textContent = "";
+    gameOverContainer.classList.remove("game-set");
+  }, 3000);
 }
 
 /*
