@@ -612,6 +612,9 @@ function padNumber(number) {
   return number.toString().padStart(2, "0");
 }
 
-deck = initializeDeck();
-dealtCards = dealCards(deck);
-cardImages();
+function newGame() {
+  resetScores();
+  deck = initializeDeck();
+  dealtCards = dealCards(deck);
+  cardImages()
+}
