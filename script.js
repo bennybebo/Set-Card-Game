@@ -514,20 +514,20 @@ function lenSelectedCards(selectedCards) {
 function hint() {
   let combos = getPossibleCombinations(dealtCards);
     for (const combo of combos) {
-        if (isValidSet(combo)) {
-            var card = document.getElementById(
-            "card" + (dealtCards.indexOf(combo[0]) + 1)
-            );
-            card.style.outline = "5px solid #b700ff";
+      if (isValidSet(combo)) {
+          var card = document.getElementById(
+          "card" + (dealtCards.indexOf(combo[0]) + 1)
+          );
+          card.style.outline = "5px solid #b700ff";
 
-            setTimeout(() => {
-                var card = document.getElementById(
-                "card" + (dealtCards.indexOf(combo[i]) + 1)
-                );
-                card.style.outline = "5px solid rgba(255, 0, 0, 0.0)";
-            }, 5000);
-            break;
-        }
+        setTimeout(() => {
+          for (const cardIndex of combo) {
+            var card = document.getElementById("card" + (dealtCards.indexOf(cardIndex) + 1));
+            card.style.outline = "5px solid rgba(255, 0, 0, 0.0)";
+          }
+        }, 5000);
+        break;
+      }
     }
 }
 /* Provides the player with hints, and
