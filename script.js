@@ -628,7 +628,8 @@ function padNumber(number) {
 function newGame() {
   var container = document.querySelector('.container');
   container.innerHTML = '';
-
+  var message_container=document.getElementById('message-container');
+  message_container.textContent='';
   // Generate and add 12 new cards to the container
   for (var i = 1; i <= 12; i++) {
     var card = document.createElement('div');
