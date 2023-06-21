@@ -133,7 +133,7 @@ function getPossibleCombinations(dealtCards) {
 function compareElements(element1, element2, element3) {
   let result = 0;
   // Compare each element from three cards, e.g. only color here
-  if (element1 == element2 && element2 == element3) {
+  if (element1 === element2 && element2 === element3) {
     result = 1; // if all the elements are equal, all three cards have the same color
   } else if (
     element1 != element2 &&
@@ -248,7 +248,6 @@ function checkSelectedCards() {
     printOutcome(isaSet);
   }
   currentPlayer = null;
-  printScores();
 }
 
 /*
@@ -359,16 +358,6 @@ function decreaseScore(player) {
   } else {
     document.getElementById("points2").textContent =
       padNumber(scores[player]) + " points";
-  }
-}
-
-/*
- * Prints the scores to the screen
- * Expects nothing and returns nothing
- */
-function printScores() {
-  for (let player in scores) {
-    console.log(player + "'s score: " + scores[player]);
   }
 }
 
@@ -512,6 +501,17 @@ function lenSelectedCards(selectedCards) {
  * Expects nothing and returns nothing
  */
 function hint() {
+  if (!containsSet(dealtCards)) {
+    const messageContainer = document.getElementById("message-container");
+
+    messageContainer.textContent = "No displayed sets! Hit open new cards.";
+    messageContainer.classList.add("no-sets");
+    setTimeout(() => {
+    messageContainer.textContent = "";
+    messageContainer.classList.remove("message-container");
+  }, 4000);
+  }
+  else {
   let combos = getPossibleCombinations(dealtCards);
     for (const combo of combos) {
       if (isValidSet(combo)) {
@@ -529,12 +529,24 @@ function hint() {
         break;
       }
     }
+  }
 }
 /* Provides the player with hints, and
  * removes outlines on cards
  * Expects nothing and returns nothing
  */
 function hint2() {
+ if (!containsSet(dealtCards)) {
+    const messageContainer = document.getElementById("message-container");
+
+    messageContainer.textContent = "No displayed sets! Hit open new cards.";
+    messageContainer.classList.add("no-sets");
+    setTimeout(() => {
+    messageContainer.textContent = "";
+    messageContainer.classList.remove("message-container");
+  }, 4000);
+  } 
+  else { 
     let combos = getPossibleCombinations(dealtCards);
     for (const combo of combos) {
         if (isValidSet(combo)) {
@@ -558,6 +570,7 @@ function hint2() {
             break;
         }
     }
+  }
 }
 
 /* Opens three new cards to add to the screen.
