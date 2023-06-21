@@ -7,75 +7,75 @@
 </head>
 <body>
     <!-- Header -->
-    <div class="header">
-        <nav>
-            <img src="./imgs/GameLogo.png" class="img">
-            <ul class="header_lists">
-                <!-- New button will restart the timer and reset the players scores -->
-                <li class="btn" id="start-timer" onclick="newGame()">New Game</li>
-                <li class="btn" id="open-cards" onclick="openNewCards()">Open New Cards</li>
-                <div class="dropDown">    
-                    <li class="btn">Hints</li>
-                    <div class="dropDown_hints">
-                        <a id="hint1" onclick="hint()">😱1 card</a>
-                        <a id="hint2" onclick="hint2()">🥵2 cards</a>
-                    </div>  
+        <div class="header">
+            <nav>
+                <img src="./imgs/GameLogo.png" class="img">
+                <ul class="header_lists">
+                    <!-- New button will restart the timer and reset the players scores -->
+                    <li class="btn" id="start-timer" onclick="newGame()">New Game</li>
+                    <li class="btn" id="open-cards" onclick="openNewCards()">Open New Cards</li>
+                    <div class="dropDown">    
+                        <li class="btn">Hints</li>
+                        <div class="dropDown_hints">
+                            <a id="hint1" onclick="hint()">😱1 card</a>
+                            <a id="hint2" onclick="hint2()">🥵2 cards</a>
+                        </div>  
+                    </div>
+                    <li><a href="./about.html" class="btn">About</a></li>
+                </ul>
+                <button type="button" onclick="toggle()" id="dmbtn"><span></span></button>
+            </nav>
+        </div>
+    
+        <!-- Left Column -->
+        <div class="left_column">
+            <ul>
+                <div class="time-layout">
+                    <li>Time:</li>   
+                    <div class="metadata">
+                        <li id="timer">00:00 sec</li>
+                    </div>
                 </div>
-                <li><a href="./about.html" class="btn">About</a></li>
-            </ul>
-            <button type="button" onclick="toggle()" id="dmbtn"><span></span></button>
-        </nav>
-    </div>
-
-    <!-- Left Column -->
-    <div class="left_column">
-        <ul>
-            <div class="time-layout">
-                <li>Time:</li>   
-                <div class="metadata">
-                    <li id="timer">00:00 sec</li>
+                <div class="points-layout">
+                    <li style="text-align: left;">Points:</li>   
+                    <div>
+                        <li>Player 1</li>
+                        <div class="metadata">
+                            <li id="points1">00 points</li>
+                        </div>
+    
+                        <li>Player 2</li>
+                        <div class="metadata">
+                            <li id="points2">00 points</li>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="points-layout">
-                <li style="text-align: left;">Points:</li>   
                 <div>
-                    <li>Player 1</li>
-                    <div class="metadata">
-                        <li id="points1">00 points</li>
-                    </div>
-
-                    <li>Player 2</li>
-                    <div class="metadata">
-                        <li id="points2">00 points</li>
-                    </div>
+                    <li>Player 1 press the key 'A' for your turn</li>
+                    <br>
+                    <li>Player 2 press the key 'L' for your turn</li>
                 </div>
-            </div>
-            <div>
-                <li>Player 1 press the key 'A' for your turn</li>
-                <br>
-                <li>Player 2 press the key 'L' for your turn</li>
-            </div>
-        </ul>
-    </div>
-    <!-- Displays various messages; who's turn, whether a set or not -->
-    <div id="message-container"></div>
-    <!-- deck of cards -->
-    <div class="container">
-        <div class="card" id="card1" onclick="handleClick(1)"></div>
-        <div class="card" id="card2" onclick="handleClick(2)"></div>
-        <div class="card" id="card3" onclick="handleClick(3)"></div>
-        <div class="card" id="card4" onclick="handleClick(4)"></div>
-        <div class="card" id="card5" onclick="handleClick(5)"></div>
-        <div class="card" id="card6" onclick="handleClick(6)"></div>
-        <div class="card" id="card7" onclick="handleClick(7)"></div>
-        <div class="card" id="card8" onclick="handleClick(8)"></div>
-        <div class="card" id="card9" onclick="handleClick(9)"></div>
-        <div class="card" id="card10" onclick="handleClick(10)"></div>
-        <div class="card" id="card11" onclick="handleClick(11)"></div>
-        <div class="card" id="card12" onclick="handleClick(12)"></div>
+            </ul>
+        </div>
+        <!-- Displays various messages; who's turn, whether a set or not -->
+        <div id="message-container"> Please press the 'New Game' button to play the game:</div>
+        <!-- deck of cards -->
+        <div class="container">
+            <div class="card" id="card1" onclick="handleClick(1)"></div>
+            <div class="card" id="card2" onclick="handleClick(2)"></div>
+            <div class="card" id="card3" onclick="handleClick(3)"></div>
+            <div class="card" id="card4" onclick="handleClick(4)"></div>
+            <div class="card" id="card5" onclick="handleClick(5)"></div>
+            <div class="card" id="card6" onclick="handleClick(6)"></div>
+            <div class="card" id="card7" onclick="handleClick(7)"></div>
+            <div class="card" id="card8" onclick="handleClick(8)"></div>
+            <div class="card" id="card9" onclick="handleClick(9)"></div>
+            <div class="card" id="card10" onclick="handleClick(10)"></div>
+            <div class="card" id="card11" onclick="handleClick(11)"></div>
+            <div class="card" id="card12" onclick="handleClick(12)"></div>
     </div>
 
-    <script>
+<script>
         /*
          * toggle function calls the light mode function to change the 
          * game's theme for dark to light and vice-versa 
@@ -123,7 +123,6 @@
             clearInterval(duration)
             duration=setInterval(update_timer,1000)
         }
-        window.onload=start_timer();
         function update_timer(){
             const timer=document.getElementById('timer');
             sec++;
