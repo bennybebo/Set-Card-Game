@@ -626,6 +626,18 @@ function padNumber(number) {
 }
 
 function newGame() {
+  var container = document.querySelector('.container');
+  container.innerHTML = '';
+
+  // Generate and add 12 new cards to the container
+  for (var i = 1; i <= 12; i++) {
+    var card = document.createElement('div');
+    card.className = 'card';
+    card.id = 'card' + i;
+    card.setAttribute('onclick', 'handleClick(' + i + ')');
+    container.appendChild(card);
+  }
+  
   resetScores();
   deck = initializeDeck();
   dealtCards = dealCards(deck);
