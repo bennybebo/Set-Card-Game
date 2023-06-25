@@ -1,22 +1,17 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Set</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    
-</head>
-<body>
-    <!-- Header -->
+    <head>
+        <title>Set</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        
+    </head>
+    <body>
+        <!-- Header -->
         <div class="header">
             <nav>
                 <img src="./imgs/GameLogo.png" class="img">
                 <ul class="header_lists">
-                    <!-- New button will restart the timer and reset the players scores -->
                     <li class="btn" id="start-timer" onclick="newGame()">New Game</li>
-                    <li class="btn" id="open-cards" onclick="openNewCards()">Open New Cards</li>
-                    <li class="btn" id="one-player"><a href="./one_player_mode.html">1 Player</a></li>
-                    <!-- Should  two player mode be a defauld or should we have a button for it as well-->
-                    <li class="btn" id="start-timer" onclick="newGame()">2 Player</li>
                     <div class="dropDown">    
                         <li class="btn">Hints</li>
                         <div class="dropDown_hints">
@@ -25,6 +20,7 @@
                         </div>  
                     </div>
                     <li><a href="javascript:void(0)" onclick="document.getElementById('pop-up').style.display='block'; document.getElementById('fade').style.display='block'" class="btn">About</a></li>
+                    <li><a href="./index.html" class="btn">Back</a></li>
                 </ul>
                 <button type="button" onclick="toggle()" id="dmbtn"><span></span></button>
             </nav>
@@ -33,6 +29,7 @@
             <a href="javascript:void(0)" onclick="document.getElementById('pop-up').style.display='none'; document.getElementById('fade').style.display='none';" class="btn"> close </a>
             <img src="./imgs/ABout_pop_up.png" class="about-img">
         </div>
+        
         <!-- Left Column -->
         <div class="left_column">
             <ul>
@@ -45,21 +42,10 @@
                 <div class="points-layout">
                     <li style="text-align: left;">Points:</li>   
                     <div>
-                        <li>Player 1</li>
                         <div class="metadata">
                             <li id="points1">00 points</li>
                         </div>
-    
-                        <li>Player 2</li>
-                        <div class="metadata">
-                            <li id="points2">00 points</li>
-                        </div>
                     </div>
-                </div>
-                <div>
-                    <li>Player 1 press the key 'A' for your turn</li>
-                    <br>
-                    <li>Player 2 press the key 'L' for your turn</li>
                 </div>
             </ul>
         </div>
@@ -79,67 +65,67 @@
             <div class="card" id="card10" onclick="handleClick(10)"></div>
             <div class="card" id="card11" onclick="handleClick(11)"></div>
             <div class="card" id="card12" onclick="handleClick(12)"></div>
-    </div>
+        </div>
 
-<script>
-        /*
-         * toggle function calls the light mode function to change the 
-         * game's theme for dark to light and vice-versa 
-         */
-        function toggle(){
-            var btn=document.getElementById("dmbtn");
-            btn.classList.toggle("active")
-            lightMode();
-        }
-        /*
-         * lightMode function changes from dark themed game to light themed game 
-         */
-        function lightMode(){
-            var page=document.querySelector('body');
-            page.classList.toggle('light-mode');
 
-            var selected_cards=document.querySelectorAll('.card.selected');
-            selected_cards.forEach(function(card){
-                card.classList.toggle('.light-mode .card.selected');
-            });
-        }
-        
-        /*
-         * Function to reset scores when 'New Game' is clicked
-         */
-        const reset_score=document.getElementById('start-timer');
-        reset_score.addEventListener('click', function(){
-            resetScores();
-        });
-        
-
-        /*
-         * Start timer and update timer;
-         * Start timer already starts the timer when the page loads and whenever 'New Game'
-         * is pressed it restarts the timer
-         * Update timer updates the time 
-         */
-        document.getElementById('start-timer').addEventListener('click', start_timer);
-        let sec=0;
-        let min=0;
-        let duration;
-        function start_timer(){
-            sec=0;
-            min=0;
-            clearInterval(duration)
-            duration=setInterval(update_timer,1000)
-        }
-        function update_timer(){
-            const timer=document.getElementById('timer');
-            sec++;
-            if(sec >= 60){
-                sec=0;
-                min++;
+        <script>
+            /*
+             * toggle function calls the light mode function to change the 
+             * game's theme for dark to light and vice-versa 
+             */
+            function toggle(){
+                var btn=document.getElementById("dmbtn");
+                btn.classList.toggle("active")
+                lightMode();
             }
-            const converted_time=`${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')} secs`;
-            timer.textContent=converted_time;
-        }
-    </script>
-    <script src="script.js"></script>
-</body>
+            /*
+             * lightMode function changes from dark themed game to light themed game 
+             */
+            function lightMode(){
+                var page=document.querySelector('body');
+                page.classList.toggle('light-mode');
+                
+                var selected_cards=document.querySelectorAll('.card.selected');
+                selected_cards.forEach(function(card){
+                    card.classList.toggle('.light-mode .card.selected');
+                });
+            }
+
+            /*
+            * Function to reset scores when 'New Game' is clicked
+            */
+            const reset_score=document.getElementById('start-timer');
+            reset_score.addEventListener('click', function(){
+                resetScores();
+            });
+
+            /*
+            * Start timer and update timer;
+            * Start timer already starts the timer when the page loads and whenever 'New Game'
+            * is pressed it restarts the timer
+            * Update timer updates the time 
+            */
+            document.getElementById('start-timer').addEventListener('click', start_timer);
+            let sec=0;
+            let min=0;
+            let duration;
+            function start_timer(){
+                sec=0;
+                min=0;
+                clearInterval(duration)
+                duration=setInterval(update_timer,1000)
+            }
+            function update_timer(){
+                const timer=document.getElementById('timer');
+                sec++;
+                if(sec >= 60){
+                    sec=0;
+                    min++;
+                }
+                const converted_time=`${min.toString().padStart(2,'0')}:${sec.toString().padStart(2,'0')} secs`;
+                timer.textContent=converted_time;
+            }
+        </script>
+        <script src="script.js"></script>    
+    </body>
 </html>

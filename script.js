@@ -639,8 +639,8 @@ function newGame() {
     container.appendChild(card);
   }
   
-  resetScores();
   deck = initializeDeck();
   dealtCards = dealCards(deck);
-  cardImages()
+  cardImages();
+  resetScores();
 }
