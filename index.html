@@ -16,7 +16,7 @@
                     <li class="btn" id="open-cards" onclick="openNewCards()">Open New Cards</li>
                     <li class="btn" id="one-player"><a href="./one_player_mode.html">1 Player</a></li>
                     <!-- Should  two player mode be a defauld or should we have a button for it as well-->
-                    <li class="btn" id="start-timer" onclick="newGame()">2 Player</li>
+                    <li class="btn" id="start-timer-2" onclick="newGame()">2 players</li>
                     <div class="dropDown">    
                         <li class="btn">Hints</li>
                         <div class="dropDown_hints">
@@ -120,6 +120,7 @@
          * Update timer updates the time 
          */
         document.getElementById('start-timer').addEventListener('click', start_timer);
+        document.getElementById('start-timer-2').addEventListener('click', start_timer);
         let sec=0;
         let min=0;
         let duration;
