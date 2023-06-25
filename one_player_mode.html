@@ -11,7 +11,8 @@
             <nav>
                 <img src="./imgs/GameLogo.png" class="img">
                 <ul class="header_lists">
-                    <li class="btn" id="start-timer" onclick="newGame()">New Game</li>
+                    <li class="btn" id="start-timer" onclick="newGame_single_player()">New Game</li>
+                    <li class="btn" id="open-cards" onclick="openNewCards()">Open New Cards</li>
                     <div class="dropDown">    
                         <li class="btn">Hints</li>
                         <div class="dropDown_hints">
@@ -43,7 +44,7 @@
                     <li style="text-align: left;">Points:</li>   
                     <div>
                         <div class="metadata">
-                            <li id="points1">00 points</li>
+                            <li id="single-player-points">00 points</li>
                         </div>
                     </div>
                 </div>
@@ -96,7 +97,7 @@
             */
             const reset_score=document.getElementById('start-timer');
             reset_score.addEventListener('click', function(){
-                resetScores();
+                resetScores_single_player();
             });
 
             /*
@@ -126,6 +127,6 @@
                 timer.textContent=converted_time;
             }
         </script>
-        <script src="script.js"></script>    
+        <script src="script_single_player.js"></script>    
     </body>
 </html>
