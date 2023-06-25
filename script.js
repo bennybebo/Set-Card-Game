@@ -273,24 +273,6 @@ function checkSelectedCardsNoPlayerSelected() {
   clearSelection();
   clearTimeout(timeoutId);
   let isaSet = false;
-  // if (isValidSet(selectedCardsCopy)) {
-  //   isaSet = true;
-  //   //Increase score of player
-  //   increaseScore(currentPlayer);
-  //   //Replace selected cards with new ones
-  //   replaceCards(selectedCardsCopy);
-  //   printOutcome(isaSet);
-  //   if (deck.size == 0 && !(containsSet(dealtCards))){
-  //     printGameOver()
-  //   }
-  //   //Update card images
-  //   cardImages();
-  // } else {
-  //   //Decrease score of player
-  //   decreaseScore(currentPlayer);
-  //   //Clear the selection
-  //   printOutcome(isaSet);
-  // }
   currentPlayer = null;
 }
 
