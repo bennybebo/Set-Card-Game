@@ -1,7 +1,7 @@
 let selectedCards = [];
 let currentPlayer = null;
 let timeoutId;
-
+let playertoggled = false;
 class Card {
   constructor(color, shape, number, shading) {
     this.color = color;
@@ -216,9 +216,22 @@ function handleClick(cardNumber) {
   }
 
   if (selectedCards.length === 3) {
-    checkSelectedCards();
+    if(playertoggled == true){
+      checkSelectedCards();
+      playertoggled = false;
+    }
+    else{
+      checkSelectedCardsNoPlayerSelected();
+      const messageContainer = document.getElementById("message-container");
+        messageContainer.textContent = "Please identify a player before selecting a set.";
+        messageContainer.classList.add("toggle-error");
+      }
+      setTimeout(() => {
+        messageContainer.textContent = "";
+        messageContainer.classList.remove("toggle-error");
+      }, 3000);
+    }
   }
-}
 
 /*
  * When selectedCards has 3 elements, check whether or not it is a set and handle each case.
@@ -249,6 +262,38 @@ function checkSelectedCards() {
   }
   currentPlayer = null;
 }
+
+/*
+ * When selectedCards has 3 elements, check whether or not it is a set and handle each case.
+ * This is called in a special case where no player is identified before choosing a set.
+ * Expects nothing as input and returns nothing.
+ */
+function checkSelectedCardsNoPlayerSelected() {
+  selectedCardsCopy = selectedCards;
+  clearSelection();
+  clearTimeout(timeoutId);
+  let isaSet = false;
+  // if (isValidSet(selectedCardsCopy)) {
+  //   isaSet = true;
+  //   //Increase score of player
+  //   increaseScore(currentPlayer);
+  //   //Replace selected cards with new ones
+  //   replaceCards(selectedCardsCopy);
+  //   printOutcome(isaSet);
+  //   if (deck.size == 0 && !(containsSet(dealtCards))){
+  //     printGameOver()
+  //   }
+  //   //Update card images
+  //   cardImages();
+  // } else {
+  //   //Decrease score of player
+  //   decreaseScore(currentPlayer);
+  //   //Clear the selection
+  //   printOutcome(isaSet);
+  // }
+  currentPlayer = null;
+}
+
 
 /*
  * Returns if a given card is in selectedCards
@@ -374,20 +419,26 @@ function resetScores() {
   document.getElementById("points2").textContent = padNumber("0") + " points";
 }
 
+
+
+
 /*
  * Keyboard listener that changes who the current player is based off key press.
  */
 document.addEventListener("keydown", function (event) {
+  playertoggled=false;
   if (currentPlayer === null) {
     const messageContainer = document.getElementById("message-container");
     //First player to press a key becomes the current player
     if (event.key === "a") {
+      playertoggled=true;
       messageContainer.textContent = "Player 1's turn";
       messageContainer.classList.add("set");
       currentPlayer = "player1";
       clearTimeout(timeoutId); //Clear the timeout for the previous player (if any)
       timeoutId = setTimeout(playerTimeout, 5000); //Set a 5 second timer
     } else if (event.key === "l") {
+      playertoggled=true;
       messageContainer.textContent = "Player 2's turn";
       messageContainer.classList.add("set");
       currentPlayer = "player2";
@@ -395,6 +446,7 @@ document.addEventListener("keydown", function (event) {
       timeoutId = setTimeout(playerTimeout, 5000); //Set a 5 second timer
     }
     setTimeout(() => {
+      playertoggled=false;
       messageContainer.textContent = "";
       messageContainer.classList.remove("Player 1's turn", "Player 2's turn");
     }, 5000);
