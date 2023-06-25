@@ -206,7 +206,7 @@ function containsSet(visibleCards) {
 * toggles checkSelectedCard() if three cards are selected
 * Expects a card number and returns nothing
 */
-function handleClick(cardNumber) {
+function handleClick_single_player(cardNumber) {
     const clickedCard = dealtCards[cardNumber - 1];
     if (isSelected(clickedCard)) {
         deselectCard(clickedCard);
@@ -531,7 +531,7 @@ function openNewCards() {
         cardDiv = document.createElement("div");
         cardDiv.setAttribute("class", "card");
         cardDiv.setAttribute("id", "card" + dealtCards.length);
-        cardDiv.setAttribute("onclick", "handleClick(" + dealtCards.length + ")");
+        cardDiv.setAttribute("onclick", "handleClick_single_player(" + dealtCards.length + ")");
         container[0].appendChild(cardDiv);
     }
     cardImages();
@@ -580,7 +580,7 @@ function newGame_single_player() {
       var card = document.createElement('div');
       card.className = 'card';
       card.id = 'card' + i;
-      card.setAttribute('onclick', 'handleClick(' + i + ')');
+      card.setAttribute('onclick', 'handleClick_single_player(' + i + ')');
       container.appendChild(card);
     }
     
