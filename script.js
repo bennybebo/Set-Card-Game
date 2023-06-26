@@ -225,13 +225,13 @@ function handleClick(cardNumber) {
       const messageContainer = document.getElementById("message-container");
         messageContainer.textContent = "Please identify a player before selecting a set.";
         messageContainer.classList.add("toggle-error");
-      }
-      setTimeout(() => {
+        setTimeout(() => {
         messageContainer.textContent = "";
         messageContainer.classList.remove("toggle-error");
       }, 3000);
     }
   }
+}
 
 /*
  * When selectedCards has 3 elements, check whether or not it is a set and handle each case.
